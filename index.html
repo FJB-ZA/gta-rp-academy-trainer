@@ -1,0 +1,2221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>San Andreas Academy Trainer — Officer Certification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#11284B;--navy-700:#1C3A66;--navy-900:#0C1D38;
+    --bg:#F4F6F9;--surface:#FFFFFF;--surface-2:#FBFCFD;
+    --line:#D5DCE5;--line-2:#E5EAF0;
+    --ink:#1A2230;--muted:#5B6675;--muted-2:#8A94A3;
+    --brass:#B8862F;--brass-soft:#E9D9B6;
+    --inf:#2E7D9A;--mis:#B26A00;--fel:#B0282D;--hut:#7A1F23;
+    --green:#1E7A4D;--green-soft:#E3F1E9;--red:#B0282D;--red-soft:#F7E5E5;
+    --ui:'Public Sans',system-ui,-apple-system,sans-serif;
+    --legal:'Source Serif 4',Georgia,serif;
+    --mono:'IBM Plex Mono',monospace;
+    --shadow:0 1px 2px rgba(17,40,75,.06),0 2px 8px rgba(17,40,75,.05);
+    --shadow-lg:0 6px 24px rgba(12,29,56,.12);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{background:var(--bg);color:var(--ink);font-family:var(--ui);line-height:1.5;min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased}
+  ::selection{background:var(--navy);color:#fff}
+  a{color:var(--navy-700)}
+
+  /* ---------- Official banner ---------- */
+  .gov-banner{background:var(--navy-900);color:#cdd6e4}
+  .gov-banner .inner{max-width:1160px;margin:0 auto;padding:7px 24px;display:flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.01em}
+  .gov-banner svg{flex-shrink:0}
+  .gov-banner b{color:#fff;font-weight:600}
+  .gov-banner .lock{margin-left:auto;display:flex;align-items:center;gap:6px;color:#9fb0c9;font-family:var(--mono);font-size:11px;letter-spacing:.04em}
+
+  /* ---------- Masthead ---------- */
+  .masthead-wrap{background:var(--surface);border-bottom:3px solid var(--navy)}
+  .masthead{max-width:1160px;margin:0 auto;padding:18px 24px;display:flex;align-items:center;gap:18px}
+  .seal{width:60px;height:60px;flex-shrink:0}
+  .lockup{display:flex;flex-direction:column;gap:1px}
+  .lockup .agency{font-weight:800;font-size:18px;letter-spacing:-.01em;color:var(--navy);line-height:1.1}
+  .lockup .division{font-weight:600;font-size:12.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em}
+  .mast-right{margin-left:auto;text-align:right;display:flex;flex-direction:column;gap:3px}
+  .mast-right .label{font-family:var(--mono);font-size:10px;letter-spacing:.14em;color:var(--muted-2);text-transform:uppercase}
+  .mast-right .badge-no{font-family:var(--mono);font-size:13px;font-weight:600;color:var(--navy)}
+  @media (max-width:620px){.mast-right{display:none}}
+
+  /* ---------- Hero / certification strip ---------- */
+  .hero{background:linear-gradient(180deg,var(--navy),var(--navy-900));color:#eaf0f8}
+  .hero-inner{max-width:1160px;margin:0 auto;padding:30px 24px 34px;display:grid;grid-template-columns:1.5fr 1fr;gap:30px;align-items:end}
+  .hero .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--brass-soft);margin-bottom:10px}
+  .hero h1{font-weight:800;font-size:clamp(26px,4vw,38px);line-height:1.08;letter-spacing:-.02em;color:#fff;margin-bottom:10px}
+  .hero p{color:#bccadd;font-size:14.5px;max-width:54ch}
+  .hero p b{color:#fff;font-weight:600}
+  .cert-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:16px 18px;backdrop-filter:blur(2px)}
+  .cert-card .ct{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:#9fb0c9;display:flex;justify-content:space-between;align-items:center}
+  .cert-card .ct b{color:var(--brass-soft);font-weight:600;font-size:20px;font-family:var(--ui)}
+  .cert-track{height:8px;background:rgba(255,255,255,.13);border-radius:4px;margin:11px 0 8px;overflow:hidden}
+  .cert-track span{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--brass),#E0B768);border-radius:4px;transition:width .6s ease}
+  .cert-card .sub{font-size:12px;color:#9fb0c9}
+  @media (max-width:760px){.hero-inner{grid-template-columns:1fr;gap:20px}}
+
+  /* ---------- Tabs ---------- */
+  .tabs-wrap{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:40;box-shadow:var(--shadow)}
+  .tabs{max-width:1160px;margin:0 auto;padding:0 24px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+  .tabs::-webkit-scrollbar{display:none}
+  .tab{flex-shrink:0}
+  .tab{appearance:none;background:none;border:none;cursor:pointer;font-family:var(--ui);font-weight:600;font-size:14px;color:var(--muted);padding:15px 18px 13px;position:relative;display:flex;align-items:center;gap:9px;transition:color .15s}
+  .tab .ico{width:17px;height:17px;color:currentColor}
+  .tab:hover{color:var(--navy)}
+  .tab.active{color:var(--navy)}
+  .tab.active::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:3px;background:var(--brass);border-radius:3px 3px 0 0}
+  .tab:focus-visible{outline:2px solid var(--navy-700);outline-offset:-3px;border-radius:4px}
+  .section-readout{margin-left:auto;align-self:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--muted-2);text-transform:uppercase}
+  @media (max-width:620px){.section-readout{display:none}.tab{padding:14px 13px 12px}}
+
+  /* ---------- Section filter (chips) ---------- */
+  .filterbar{background:var(--surface-2);border-bottom:1px solid var(--line)}
+  .chips{max-width:1160px;margin:0 auto;padding:13px 24px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+  .chips .flabel{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-right:4px}
+  .chip{appearance:none;cursor:pointer;font-family:var(--ui);font-weight:500;font-size:12.5px;background:var(--surface);border:1px solid var(--line);color:var(--muted);padding:6px 12px;border-radius:6px;transition:.13s;display:flex;align-items:center;gap:7px}
+  .chip:hover{border-color:var(--navy-700);color:var(--navy)}
+  .chip.active{background:var(--navy);border-color:var(--navy);color:#fff}
+  .chip .tag{width:7px;height:7px;border-radius:2px;background:var(--c,var(--muted))}
+  .chip.active .tag{box-shadow:0 0 0 1.5px rgba(255,255,255,.5)}
+  .chip:focus-visible{outline:2px solid var(--navy-700);outline-offset:2px}
+
+  main{padding:30px 24px 90px}
+
+  /* ---------- Topic / manual ---------- */
+  .topic{margin-bottom:26px;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:var(--surface);box-shadow:var(--shadow)}
+  .topic-head{display:flex;align-items:center;gap:12px;padding:16px 22px;border-bottom:1px solid var(--line-2);background:var(--surface)}
+  .topic-head .swatch{width:4px;height:22px;border-radius:2px;background:var(--c,var(--navy))}
+  .topic-head h2{font-weight:700;font-size:18px;letter-spacing:-.01em;color:var(--navy)}
+  .topic-head .count{margin-left:auto;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:var(--muted-2);text-transform:uppercase}
+  .topic-body{padding:4px 22px 14px}
+  .entry{padding:16px 0;border-bottom:1px solid var(--line-2)}
+  .entry:last-child{border-bottom:none}
+  .entry h3{font-weight:700;font-size:15px;letter-spacing:-.005em;color:var(--ink);margin-bottom:6px;display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+  .entry h3 .lvl{font-family:var(--mono);font-size:10px;font-weight:600;color:#fff;background:var(--c,var(--navy));padding:2px 8px;border-radius:4px;letter-spacing:.05em}
+  .entry p{color:#36404f;font-size:14.5px;font-family:var(--legal);line-height:1.6}
+  .entry .req{margin-top:8px;font-family:var(--mono);font-size:12px;color:var(--muted);line-height:1.5}
+  .entry .def{font-family:var(--legal);font-size:16.5px;font-weight:600;color:var(--ink);line-height:1.45;margin-bottom:6px}
+  .entry .eg{font-family:var(--legal);font-style:italic;font-size:13px;color:var(--muted);margin-top:9px;padding-left:12px;border-left:2px solid #E3D4AE}
+  .entry.def-entry{border-bottom:none;border-left:3px solid var(--c,var(--navy));padding:5px 0 5px 16px;margin-bottom:16px}
+  .entry.def-entry:last-child{margin-bottom:4px}
+  .entry.def-entry h3{font-size:15.5px;margin-bottom:5px}
+  .entry.def-entry .def{color:var(--navy)}
+  .entry .blist{margin:9px 0 0;padding-left:19px}
+  .entry .blist li{font-family:var(--legal);font-size:14px;color:#36404f;line-height:1.6;margin-bottom:3px}
+  .entry .dlist{margin-top:10px}
+  .dl-item{display:grid;grid-template-columns:172px 1fr;gap:16px;padding:9px 0;border-top:1px solid var(--line-2)}
+  .dl-item:first-child{border-top:none;padding-top:2px}
+  .dl-term{font-weight:600;font-size:13.5px;color:var(--navy);line-height:1.4}
+  .dl-desc{font-family:var(--legal);font-size:13.5px;color:#36404f;line-height:1.5}
+  .entry .olist{margin:10px 0 0;padding-left:22px}
+  .entry .olist li{font-family:var(--legal);font-size:14px;color:#36404f;line-height:1.55;margin-bottom:5px;padding-left:3px}
+  .entry .olist li::marker{color:var(--navy);font-weight:700}
+  @media (max-width:600px){.dl-item{grid-template-columns:1fr;gap:1px;padding:8px 0}.dl-term{color:var(--ink)}}
+  .entry .req b{color:var(--navy-700);font-weight:600}
+  .warn{margin-top:6px;padding:11px 14px;border-left:3px solid var(--brass);background:#FBF6EC;font-family:var(--legal);font-size:13.5px;color:#5c4a24;border-radius:0 6px 6px 0}
+  .warn b{color:var(--navy);font-family:var(--ui);font-weight:700}
+  .grid-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:7px;margin-top:8px}
+  .gl-item{font-family:var(--mono);font-size:12.5px;background:var(--surface-2);border:1px solid var(--line-2);border-radius:6px;padding:8px 11px;display:flex;justify-content:space-between;gap:8px;color:var(--ink)}
+  .gl-item .q{color:var(--navy);font-weight:600}
+  .note{font-family:var(--legal);font-style:italic;font-size:12.5px;color:var(--muted);margin-top:10px}
+
+  /* ---------- Penal table ---------- */
+  .penal-tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:14px 0 10px}
+  .search{flex:1;min-width:220px;background:var(--surface);border:1px solid var(--line);border-radius:7px;padding:10px 13px;color:var(--ink);font-family:var(--ui);font-size:14px}
+  .search::placeholder{color:var(--muted-2)}
+  .search:focus-visible{outline:2px solid var(--navy-700);outline-offset:1px;border-color:var(--navy-700)}
+  .pill{appearance:none;cursor:pointer;font-family:var(--ui);font-weight:600;font-size:12px;padding:8px 13px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--muted);transition:.13s}
+  .pill:hover{color:var(--navy);border-color:var(--navy-700)}
+  .pill.on{color:#fff;border-color:transparent}
+  .pill.on[data-k="ALL"]{background:var(--navy)}
+  .pill.on[data-k="INF"]{background:var(--inf)}
+  .pill.on[data-k="MIS"]{background:var(--mis)}
+  .pill.on[data-k="FEL"]{background:var(--fel)}
+  .pill.on[data-k="HUT"]{background:var(--hut)}
+  .resultcount{font-family:var(--mono);font-size:11px;color:var(--muted-2);margin-left:auto}
+  .ptable{width:100%;border-collapse:collapse;font-size:14px;margin-top:4px}
+  .ptable th{text-align:left;font-family:var(--ui);font-weight:700;font-size:10.5px;letter-spacing:.08em;color:var(--muted);text-transform:uppercase;padding:9px 10px;border-bottom:2px solid var(--line);position:sticky;top:53px;background:var(--surface);z-index:5}
+  .ptable td{padding:11px 10px;border-bottom:1px solid var(--line-2);vertical-align:top}
+  .ptable tbody tr:nth-child(even){background:var(--surface-2)}
+  .ptable tbody tr:hover{background:#EEF2F8}
+  .ccode{font-family:var(--mono);font-size:12px;color:var(--navy-700);font-weight:500;white-space:nowrap}
+  .cls{font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;color:#fff;white-space:nowrap;letter-spacing:.03em}
+  .cls.INF{background:var(--inf)}.cls.MIS{background:var(--mis)}.cls.FEL{background:var(--fel)}
+  .hut{font-family:var(--mono);font-size:9px;font-weight:600;color:#fff;background:var(--hut);border-radius:3px;padding:2px 5px;margin-left:6px;letter-spacing:.04em}
+  .cname{font-weight:600;font-size:14px;color:var(--ink)}
+  .cdesc{color:var(--muted);font-family:var(--legal);font-size:13px;line-height:1.5;margin-top:4px;display:none}
+  .ptable.expanded .cdesc{display:block}
+  .cmoney{font-family:var(--mono);font-size:12.5px;color:var(--ink);white-space:nowrap}
+
+  /* ---------- Flashcards ---------- */
+  .pill.on{background:var(--navy)}
+  .pill.on[data-dt="INF"]{background:var(--inf)}
+  .pill.on[data-dt="MIS"]{background:var(--mis)}
+  .pill.on[data-dt="FEL"]{background:var(--fel)}
+  .pill.on[data-dt="HUT"]{background:var(--hut)}
+  .deck-controls{max-width:600px;margin:0 auto 18px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px}
+  .dc-row{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+  .dc-label{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);width:42px;flex-shrink:0}
+  .dc-count{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--muted-2)}
+  .drill-wrap{max-width:600px;margin:0 auto;text-align:center}
+  .drill-meta{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);margin-bottom:16px;display:flex;justify-content:center;gap:18px;flex-wrap:wrap;text-transform:uppercase}
+  .drill-meta b{color:var(--navy);font-weight:600}
+  .card{perspective:1800px;height:330px;margin-bottom:22px;cursor:pointer}
+  .card-inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.4,.2,.2,1);transform-style:preserve-3d}
+  .card.flipped .card-inner{transform:rotateY(180deg)}
+  .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border:1px solid var(--line);border-radius:14px;padding:32px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;background:var(--surface);box-shadow:var(--shadow-lg);overflow:hidden}
+  .face .seal-wm{position:absolute;width:230px;height:230px;opacity:.05;bottom:-40px;right:-40px;pointer-events:none}
+  .face .corner{position:absolute;top:16px;left:18px;font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;color:var(--muted-2);text-transform:uppercase}
+  .face .corner-r{left:auto;right:18px;color:var(--c,var(--navy));font-weight:500}
+  .face .prompt{font-weight:700;font-size:22px;line-height:1.25;letter-spacing:-.01em;color:var(--navy);position:relative}
+  .face .hint{font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:var(--muted-2);text-transform:uppercase}
+  .back{transform:rotateY(180deg);background:var(--navy);border-color:var(--navy-900)}
+  .back .corner{color:#7d8ca6}.back .corner-r{color:var(--brass-soft)}
+  .back .answer{font-family:var(--legal);font-size:16.5px;line-height:1.55;color:#dfe7f2;position:relative}
+  .back .answer b{color:#fff;font-weight:600;font-family:var(--ui)}
+  .back .seal-wm{opacity:.07}
+  .card:focus-visible{outline:2px solid var(--navy-700);outline-offset:5px;border-radius:16px}
+  .drill-controls{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+
+  .btn{appearance:none;cursor:pointer;font-family:var(--ui);font-weight:600;font-size:13.5px;padding:11px 18px;border-radius:7px;border:1px solid var(--line);background:var(--surface);color:var(--ink);transition:.13s}
+  .btn:hover{border-color:var(--navy-700);color:var(--navy)}
+  .btn:focus-visible{outline:2px solid var(--navy-700);outline-offset:2px}
+  .btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn.primary:hover{background:var(--navy-700)}
+  .btn.known{border-color:var(--green);color:var(--green);background:var(--green-soft)}
+  .btn.ghost{background:none}
+
+  /* ---------- Exam ---------- */
+  .exam-setup{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow);padding:32px 26px;text-align:center;max-width:560px;margin:0 auto}
+  .es-kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+  .es-title{font-weight:800;font-size:24px;color:var(--navy);letter-spacing:-.01em;margin:5px 0 9px}
+  .es-sub{font-family:var(--legal);font-size:14px;color:var(--muted);max-width:48ch;margin:0 auto 20px;line-height:1.55}
+  .es-row{display:flex;align-items:center;justify-content:center;gap:7px;flex-wrap:wrap;margin-bottom:22px}
+  .es-start{font-size:14.5px;padding:12px 28px}
+  .es-note{font-family:var(--mono);font-size:11px;color:var(--muted-2);margin-top:15px}
+  .exam-wrap{max-width:660px;margin:0 auto}
+  .progress-line{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:var(--muted);margin-bottom:7px;display:flex;justify-content:space-between;text-transform:uppercase}
+  .progress-track{height:6px;background:var(--line);border-radius:3px;margin-bottom:22px;overflow:hidden}
+  .progress-track span{display:block;height:100%;background:var(--navy);transition:width .35s;border-radius:3px}
+  .q-card{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:26px;box-shadow:var(--shadow)}
+  .q-cat{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--c,var(--navy));font-weight:600;margin-bottom:11px}
+  .q-text{font-weight:700;font-size:19px;line-height:1.3;letter-spacing:-.01em;color:var(--ink);margin-bottom:20px}
+  .opts{display:flex;flex-direction:column;gap:9px}
+  .opt{text-align:left;cursor:pointer;font-family:var(--ui);font-size:14.5px;background:var(--surface);border:1px solid var(--line);color:var(--ink);padding:13px 15px;border-radius:8px;transition:.12s;display:flex;align-items:center;gap:12px}
+  .opt .key{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--muted);border:1px solid var(--line);border-radius:5px;width:25px;height:25px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .opt:hover:not(:disabled){border-color:var(--navy-700);background:var(--surface-2)}
+  .opt:focus-visible{outline:2px solid var(--navy-700);outline-offset:2px}
+  .opt.correct{border-color:var(--green);background:var(--green-soft)}
+  .opt.correct .key{border-color:var(--green);color:var(--green);background:#fff}
+  .opt.wrong{border-color:var(--red);background:var(--red-soft)}
+  .opt.wrong .key{border-color:var(--red);color:var(--red);background:#fff}
+  .opt:disabled{cursor:default}
+  .explain{margin-top:18px;padding:14px 16px;border-radius:8px;background:var(--surface-2);border:1px solid var(--line-2);border-left:3px solid var(--navy);font-family:var(--legal);font-size:14px;line-height:1.55;color:#36404f}
+  .explain b{color:var(--navy);font-family:var(--ui);font-weight:700}
+  .exam-nav{display:flex;justify-content:flex-end;margin-top:18px}
+
+  /* ---------- Certificate result ---------- */
+  .results{border:1px solid var(--line);border-radius:12px;background:var(--surface);box-shadow:var(--shadow-lg);overflow:hidden}
+  .cert-band{height:8px;background:var(--navy)}
+  .cert-band.fail{background:var(--muted)}
+  .results-body{text-align:center;padding:38px 28px 34px;position:relative}
+  .results .cert-seal{width:80px;height:80px;margin:0 auto 8px}
+  .results .cert-kicker{font-family:var(--mono);font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted-2)}
+  .results .verdict{font-weight:800;font-size:25px;letter-spacing:-.01em;margin:4px 0 2px}
+  .results .verdict.pass{color:var(--navy)}.results .verdict.fail{color:var(--muted)}
+  .results .score{font-family:var(--mono);font-size:15px;color:var(--ink);margin-bottom:4px}
+  .results .score b{color:var(--brass);font-size:22px;font-weight:600}
+  .results .stmt{font-family:var(--legal);font-size:13.5px;color:var(--muted);max-width:42ch;margin:6px auto 22px;line-height:1.55}
+  .breakdown{display:flex;flex-direction:column;gap:8px;max-width:420px;margin:0 auto 24px;text-align:left}
+  .bd-row{display:flex;align-items:center;gap:11px;font-size:12.5px}
+  .bd-row .lbl{flex:1.4;color:var(--ink);font-weight:500}
+  .bd-row .bar{flex:2;height:7px;background:var(--line);border-radius:4px;overflow:hidden}
+  .bd-row .bar span{display:block;height:100%;background:var(--green);border-radius:4px}
+  .bd-row .val{font-family:var(--mono);color:var(--muted);width:48px;text-align:right}
+
+  .empty{text-align:center;color:var(--muted);font-family:var(--mono);font-size:13px;padding:60px 20px}
+
+  footer{margin:0 auto;padding:26px 24px 60px;border-top:1px solid var(--line);color:var(--muted);font-size:12.5px;line-height:1.6}
+  footer b{color:var(--navy);font-weight:600}
+  footer .seal-sm{width:30px;height:30px;float:left;margin:2px 12px 8px 0;opacity:.85}
+
+  @media (max-width:600px){
+    .card{height:300px}
+    .ptable .col-desc,.ptable .cdesc{display:none}
+    .ptable.expanded .cdesc{display:block}
+    .masthead{padding:14px 18px;gap:13px}.seal{width:50px;height:50px}.lockup .agency{font-size:16px}
+    main{padding:24px 18px 80px}.chips{padding:11px 18px}.hero-inner{padding:24px 18px 28px}
+  }
+  /* ===================== OPERATIONAL TERMINAL SHELL ===================== */
+  .classbar{background:#0A1730;border-bottom:1px solid #16284a}
+  .cb-inner{max-width:1320px;margin:0 auto;padding:6px 20px;display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:#8190a8}
+  .cb-inner b{color:#cdd6e4;font-weight:600}
+  .cb-right{margin-left:auto;display:flex;align-items:center;gap:9px;color:#6b7a92}
+  .cb-right .on{color:#3FB37F}
+
+  .shell{display:flex;align-items:flex-start;margin:0 auto;min-height:calc(100vh - 27px)}
+  .sidebar{position:sticky;top:0;align-self:flex-start;width:250px;flex-shrink:0;height:100vh;overflow-y:auto;
+    background:var(--navy);color:#fff;display:flex;flex-direction:column;gap:16px;padding:16px 15px;
+    background-image:linear-gradient(180deg,#13294c,#0E2244)}
+  .brandrail{display:flex;align-items:center;gap:11px;padding:2px 2px 14px;border-bottom:1px solid rgba(255,255,255,.10)}
+  .brandrail .seal{width:42px;height:42px;flex-shrink:0}
+  .brand-name{font-weight:800;font-size:17px;color:#fff;letter-spacing:-.01em;line-height:1.05}
+  .brand-sub{display:block;font-size:10px;color:#9fb0c9;text-transform:uppercase;letter-spacing:.09em;font-weight:600;margin-top:2px}
+  .side-label{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#6f7d94;margin:0 0 7px 5px}
+  .side-nav{display:flex;flex-direction:column;gap:1px}
+  .side-nav .chip{width:100%;justify-content:flex-start;background:transparent;border:1px solid transparent;border-radius:7px;color:#b3bfd2;padding:9px 11px;font-size:13px;font-weight:500;position:relative}
+  .side-nav .chip:hover{background:rgba(255,255,255,.06);color:#fff;border-color:transparent}
+  .side-nav .chip.active{background:rgba(255,255,255,.10);color:#fff}
+  .side-nav .chip.active::before{content:"";position:absolute;left:-7px;top:8px;bottom:8px;width:3px;border-radius:0 3px 3px 0;background:var(--brass)}
+  .side-nav .chip .tag{width:8px;height:8px;border-radius:2px}
+  .side-nav .chip.active .tag{box-shadow:0 0 0 1.5px rgba(255,255,255,.35)}
+  .side-nav .chip:focus-visible{outline:2px solid var(--brass);outline-offset:-2px}
+  .cert-widget{margin-top:auto;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.10);border-radius:9px;padding:12px 13px}
+  .cw-top{display:flex;justify-content:space-between;align-items:center;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#9fb0c9}
+  .cw-top b{color:var(--brass-soft);font-size:18px;font-family:var(--ui);font-weight:800}
+  .cert-widget .cert-track{margin:9px 0 7px}
+  .cw-sub{font-size:11px;color:#7d8ca6}
+  .side-foot{font-family:var(--mono);font-size:9.5px;color:#5d6b82;line-height:1.6;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+
+  .workspace{flex:1;min-width:0;display:flex;flex-direction:column}
+  .duty-bar{position:sticky;top:0;z-index:30;background:var(--surface);border-bottom:1px solid var(--line);box-shadow:var(--shadow)}
+  .duty-id{display:flex;align-items:center;gap:13px;padding:9px 22px;border-bottom:1px solid var(--line-2);font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.02em;flex-wrap:wrap}
+  .duty-status{display:flex;align-items:center;gap:7px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+  .duty-status .dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:dutypulse 2.6s infinite}
+  @keyframes dutypulse{0%{box-shadow:0 0 0 0 rgba(30,122,77,.5)}70%{box-shadow:0 0 0 6px rgba(30,122,77,0)}100%{box-shadow:0 0 0 0 rgba(30,122,77,0)}}
+  .duty-sep{width:1px;height:13px;background:var(--line)}
+  .duty-meta b{color:var(--ink);font-weight:600}
+  .duty-clock{margin-left:auto;color:var(--navy);font-weight:700;font-size:12px}
+  .duty-bar .tabs{max-width:none;margin:0;padding:0 14px;box-shadow:none}
+  .duty-bar .section-readout{padding-right:8px}
+  .lookup{position:relative;display:flex;align-items:center;gap:9px;padding:8px 20px;border-top:1px solid var(--line-2);background:var(--surface-2)}
+  .lookup>svg{color:var(--muted-2);flex-shrink:0}
+  .gsearch{flex:1;border:none;background:none;font-family:var(--ui);font-size:13.5px;color:var(--ink);padding:2px 0;min-width:0}
+  .gsearch:focus{outline:none}
+  .gsearch::placeholder{color:var(--muted-2)}
+  .lookup kbd{font-family:var(--mono);font-size:9.5px;color:var(--muted-2);border:1px solid var(--line);border-radius:4px;padding:2px 6px;background:var(--surface);flex-shrink:0}
+  .lookup-panel{position:absolute;top:100%;left:14px;right:14px;z-index:60;background:var(--surface);border:1px solid var(--line);border-radius:0 0 10px 10px;box-shadow:var(--shadow-lg);max-height:62vh;overflow-y:auto}
+  .ls-row{display:flex;align-items:center;gap:11px;width:100%;text-align:left;background:none;border:none;border-bottom:1px solid var(--line-2);padding:10px 15px;cursor:pointer;font-family:var(--ui)}
+  .ls-row:last-child{border-bottom:none}
+  .ls-row:hover,.ls-row.sel{background:#EEF2F8}
+  .ls-tag{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+  .ls-main{display:flex;flex-direction:column;gap:1px;min-width:0;flex:1}
+  .ls-title{font-size:14px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ls-title mark{background:#FBE9C4;color:inherit;border-radius:2px;padding:0 1px}
+  .ls-meta{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ls-sec{font-family:var(--mono);font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted-2);flex-shrink:0}
+  .ls-empty{padding:18px;text-align:center;color:var(--muted);font-family:var(--mono);font-size:12px}
+  .ls-foot{padding:8px 15px;font-family:var(--mono);font-size:10px;color:var(--muted-2);border-top:1px solid var(--line);background:var(--surface-2);position:sticky;bottom:0}
+  @keyframes flashHi{0%{background:rgba(224,162,43,.30)}100%{background:transparent}}
+  .flash{animation:flashHi 1.7s ease-out}
+  @media (max-width:600px){.lookup .gsearch{font-size:13px}.lookup kbd{display:none}}
+
+  @media (max-width:900px){
+    .shell{flex-direction:column;min-height:0}
+    .sidebar{position:static;width:100%;height:auto;gap:13px;padding:14px 16px;background-image:linear-gradient(180deg,#13294c,#0E2244)}
+    .brandrail{padding-bottom:0;border-bottom:none}
+    .side-group{order:3}
+    .side-nav{flex-direction:row;flex-wrap:nowrap;overflow-x:auto;gap:7px;padding-bottom:3px;scrollbar-width:none}
+    .side-nav::-webkit-scrollbar{display:none}
+    .side-nav .chip{width:auto;flex-shrink:0;background:rgba(255,255,255,.07)}
+    .side-nav .chip.active{background:var(--brass);color:var(--navy);font-weight:600}
+    .side-nav .chip.active::before{display:none}
+    .cert-widget{margin-top:0;order:2}
+    .side-foot{display:none}
+    .duty-clock{margin-left:0}
+  }
+  /* ===== workspace section tabs ===== */
+  .sectiontabs{display:flex;gap:3px;align-items:flex-end;padding:7px 16px 0;overflow-x:auto;scrollbar-width:none;background:var(--surface)}
+  .sectiontabs::-webkit-scrollbar{display:none}
+  .stab{display:flex;align-items:center;gap:8px;padding:8px 11px;cursor:pointer;font-family:var(--ui);font-size:13px;color:var(--muted);background:none;border:1px solid transparent;border-bottom:none;border-radius:8px 8px 0 0;white-space:nowrap;flex-shrink:0;margin-bottom:-1px}
+  .stab:hover{color:var(--navy);background:rgba(17,40,75,.045)}
+  .stab.active{background:var(--bg);color:var(--navy);font-weight:600;border-color:var(--line)}
+  .stab .dot{width:8px;height:8px;border-radius:2px;flex-shrink:0}
+  .stab .x{background:none;border:none;color:var(--muted-2);cursor:pointer;font-size:16px;line-height:1;width:18px;height:18px;border-radius:4px;display:flex;align-items:center;justify-content:center;margin-left:1px;padding:0}
+  .stab .x:hover{background:var(--line);color:var(--ink)}
+  /* ===== collapsible rail ===== */
+  .rail-toggle{margin-left:auto;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);color:#aeb9cc;width:26px;height:26px;border-radius:6px;cursor:pointer;font-size:14px;line-height:1;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .rail-toggle:hover{background:rgba(255,255,255,.13);color:#fff}
+  .rail-toggle:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+  .sidebar{transition:width .18s ease}
+  .chip-abbr{display:none}
+  .sidebar.collapsed{width:68px;padding:14px 8px}
+  .sidebar.collapsed .brandrail{flex-direction:column;gap:10px;padding-bottom:12px}
+  .sidebar.collapsed .brandrail .seal{width:34px;height:34px}
+  .sidebar.collapsed .brand-lock{display:none}
+  .sidebar.collapsed .rail-toggle{margin-left:0;width:100%}
+  .sidebar.collapsed .side-label{display:none}
+  .sidebar.collapsed .chip{flex-direction:column;justify-content:center;gap:3px;padding:8px 2px}
+  .sidebar.collapsed .chip .tag{display:none}
+  .sidebar.collapsed .chip-label{display:none}
+  .sidebar.collapsed .chip-abbr{display:block;font-family:var(--mono);font-size:11px;font-weight:700;letter-spacing:.03em}
+  .sidebar.collapsed .chip.active::before{left:-8px;top:6px;bottom:6px}
+  .sidebar.collapsed .cw-top span:first-child,.sidebar.collapsed .cw-sub{display:none}
+  .sidebar.collapsed .cw-top{justify-content:center}
+  .sidebar.collapsed .cw-top b{font-size:15px}
+  .sidebar.collapsed .cert-widget{padding:9px 6px}
+  .sidebar.collapsed .side-foot{display:none}
+  @media (max-width:900px){
+    .rail-toggle{display:none}
+    .sidebar.collapsed{width:100%;padding:14px 16px}
+    .sidebar.collapsed .brandrail{flex-direction:row;padding-bottom:0}
+    .sidebar.collapsed .brand-lock{display:block}
+    .sidebar.collapsed .chip{flex-direction:row;padding:9px 11px}
+    .sidebar.collapsed .chip .tag{display:block}
+    .sidebar.collapsed .chip-label{display:inline}
+    .sidebar.collapsed .chip-abbr{display:none}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card-inner{transition:none}}
+
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="seal" viewBox="0 0 100 100">
+  <circle cx="50" cy="50" r="49" fill="#11284B"/>
+  <circle cx="50" cy="50" r="46.5" fill="none" stroke="#B8862F" stroke-width="1.1"/>
+  <circle cx="50" cy="50" r="34" fill="#FBFCFD"/>
+  <circle cx="50" cy="50" r="34" fill="none" stroke="#B8862F" stroke-width="0.9"/>
+  <defs>
+    <path id="sealTop" d="M18,50 A32,32 0 0 1 82,50"/>
+    <path id="sealBot" d="M20,52 A30,30 0 0 0 80,52"/>
+  </defs>
+  <text fill="#11284B" font-family="Public Sans,sans-serif" font-weight="700" font-size="7.6" letter-spacing="1.3"><textPath href="#sealTop" startOffset="50%" text-anchor="middle">SAN ANDREAS</textPath></text>
+  <text fill="#11284B" font-family="Public Sans,sans-serif" font-weight="600" font-size="5.2" letter-spacing="0.5"><textPath href="#sealBot" startOffset="50%" text-anchor="middle">PEACE OFFICER STANDARDS</textPath></text>
+  <path d="M50,35 L53.53,45.15 L64.27,45.36 L55.71,51.85 L58.82,62.14 L50,56 L41.18,62.14 L44.29,51.85 L35.73,45.36 L46.47,45.15 Z" fill="#B8862F" stroke="#8f6620" stroke-width="0.4"/>
+  <circle cx="50" cy="50.5" r="3" fill="#11284B"/>
+</symbol></svg>
+
+<div class="classbar">
+  <div class="cb-inner">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none"><rect x="5" y="11" width="14" height="9" rx="1.5" stroke="#8190a8" stroke-width="2"/><path d="M8 11V8a4 4 0 018 0v3" stroke="#8190a8" stroke-width="2"/></svg>
+    <span><b>For Official Use Only</b> &middot; San Andreas Law Enforcement Network</span>
+    <span class="cb-right"><span>LSPD &middot; BCSO &middot; COURTS</span><span class="duty-sep" style="background:#2a3c5e"></span><span class="on">● Terminal Secure</span></span>
+  </div>
+</div>
+
+<div class="shell">
+  <aside class="sidebar" id="sidebar">
+    <div class="brandrail">
+      <svg class="seal"><use href="#seal"/></svg>
+      <div class="brand-lock"><span class="brand-name">San Andreas</span><span class="brand-sub">Law Enforcement Portal</span></div>
+      <button class="rail-toggle" id="railToggle" title="Collapse sidebar" aria-label="Toggle sidebar">&laquo;</button>
+    </div>
+    <div class="side-group">
+      <div class="side-label">Reference</div>
+      <div class="side-nav" id="chips"></div>
+    </div>
+    <div class="cert-widget">
+      <div class="cw-top"><span>Certification</span><b id="clearPct">0%</b></div>
+      <div class="cert-track"><span id="clearMeter"></span></div>
+      <div class="cw-sub">Cards mastered across all sections</div>
+    </div>
+    <div class="side-foot">Records synced 18 Jun 2026<br>Training terminal &middot; CDT-929</div>
+  </aside>
+
+  <div class="workspace">
+    <div class="duty-bar">
+      <div class="duty-id">
+        <span class="duty-status"><span class="dot"></span>10-8 &middot; In Service</span>
+        <span class="duty-sep"></span>
+        <span class="duty-meta">Badge <b>CDT-929</b></span>
+        <span class="duty-meta">Agency <b>LSPD</b></span>
+        <span class="duty-clock"><span id="clock">--:--:--</span></span>
+      </div>
+      <nav class="tabs" role="tablist" aria-label="Study mode">
+        <button class="tab mode-btn active" data-mode="manual" role="tab"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2V5z"/><path d="M4 19a2 2 0 002 2h13"/></svg>Handbook</button>
+        <button class="tab mode-btn" data-mode="drill" role="tab"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="14" height="12" rx="2"/><path d="M7 3h12a2 2 0 012 2v10"/></svg>Flashcards</button>
+        <button class="tab mode-btn" data-mode="exam" role="tab"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 4h6a1 1 0 011 1v1h2a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V7a1 1 0 011-1h2V5a1 1 0 011-1z"/><path d="M9 13l2 2 4-4"/></svg>Examination</button>
+        <span class="section-readout" id="moduleReadout">SECTION: ALL</span>
+      </nav>
+      <div class="lookup">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+        <input id="gsearch" class="gsearch" type="text" autocomplete="off" spellcheck="false" placeholder="Search all records — charge, code, case, statute, definition…" aria-label="Search all records">
+        <kbd>Esc</kbd>
+        <div class="lookup-panel" id="gsearchPanel" hidden></div>
+      </div>
+      <div class="sectiontabs" id="sectionTabs" style="display:none"></div>
+    </div>
+    <main id="view"></main>
+    <footer><svg class="seal-sm"><use href="#seal"/></svg><b>Source of record.</b> Compiled from the State of San Andreas legal database and the Peace Officer Standards &amp; Training academy, synced 18 June 2026. This is a study aid for certification candidates, not the official statute — verify against current law before relying on it. To update, edit the <b>penalRaw</b>, <b>radioRaw</b>, and <b>DATA</b> blocks in this file. Progress is saved on this device only.</footer>
+  </div>
+</div>
+
+<script>
+/* ===================== RAW DATA (parsed at runtime) ===================== */
+/* Penal code: name / CODE / description / $fine / time  — anchored on the CODE line. */
+const penalRaw=`
+Flying in Restricted Airspace
+AC550MIS
+Flies over restricted airspace without authorization (e.g., Bolingbroke State Penn., Fort Zancudo, military aircraft carrier).
+$1250
+10 months
+Negligent Operation of an Aircraft
+AC551INF
+Operates an aircraft in a way that is considered negligent. Comes with a free review of your pilot's license.
+$500
+None
+Reckless Operation of an Aircraft
+AC552MIS
+Operates an aircraft recklessly. Temporarily suspends Pilot's License until licensing review.
+$2500
+10 months
+Operating an Aircraft without a License
+AC553MIS
+Operates an aircraft without a valid pilot's license in possession.
+$1300
+10 months
+Operating an Aircraft with a Revoked license
+AC554FEL
+Operates an aircraft while a license is revoked.
+$2500
+20 months
+Operating a Boat with a Revoked license
+BC600MIS
+Operates a seaworthy vessel while a license is revoked.
+$1000
+10 months
+Operating a Boat without a License
+BC601INF
+Operates a seaworthy vessel without a valid boating license in possession.
+$500
+None
+Possession of a Controlled Dangerous Substance
+CC100MIS
+Possesses 4+ joints of legal marijuana, or any amount of other marijuana products; or prescription meds / controlled substances without a prescription.
+$250
+5 months
+Felony Possession of a Controlled Dangerous Substance
+CC102FEL
+10+ joints, 5+ seeds, 2+ plants, 30g+ other MJ product; 10g+ Meth or Cocaine; 7+ doses of prescriptions/controlled substances without a prescription.
+$1000
+30 months
+Drug Trafficking
+CC103FEL
+Transports, distributes, or cultivates large quantities of illegal substances. Hold Until Trial charge.
+$0
+None
+Sale of a Controlled Dangerous Substance
+CC104FEL
+Sells or distributes a controlled dangerous substance without authorization or licensing.
+$2000
+30 months
+Production of a Controlled Dangerous Substance
+CC105FEL
+Produces or attempts to produce a CDS without proper medical licenses.
+$4000
+45 months
+Cultivation of Marijuana
+CC106FEL
+Tending to 1 or more marijuana plants (licenses/limits may apply).
+$3000
+45 months
+Underage Drinking
+CC120MIS
+Consumption, purchase, or possession of alcohol by anyone under 21.
+$250
+None
+Public Intoxication
+CC121MIS
+Intoxicated over 0.08% in public and disturbing/hazardous to self or others.
+$250
+5 months
+Furnishing Alcohol to a Minor
+CC122MIS
+Sells or furnishes alcohol to someone under 21; revokes liquor licenses involved.
+$750
+15 months
+Assault
+CC150MIS
+Intentional act causing another to fear imminent harm or offensive contact.
+$500
+5 months
+Battery
+CC151MIS
+Intentional non-consensual physical contact causing harm or offense.
+$800
+15 months
+Battery against an LEO
+CC152MIS
+Battery against an LEO during lawful execution of duties. Use in place of Battery.
+$650
+10 months
+Felony Assault
+CC153FEL
+Act causing fear of imminent death, OR assault using a deadly weapon.
+$1000
+15 months
+Felony Battery
+CC154FEL
+Act causing severe bodily harm without intent to kill, OR battery with a deadly weapon.
+$1500
+30 months
+Felony Battery against an LEO
+CC155FEL
+Felony battery against an LEO during lawful execution of duties.
+$1250
+20 months
+Involuntary Manslaughter
+CC156FEL
+Unintentionally causes a death through criminal negligence or while committing a dangerous misdemeanor/infraction.
+$4000
+60 months
+Manslaughter
+CC157FEL
+Unintentionally causes a death by an intentional or felony act, or during a separate dangerous felony.
+$6000
+100 months
+Attempted Murder of an LEO
+CC160FEL
+Attempted 2nd-degree murder against an LEO during lawful duties.
+$2000
+40 months
+Attempted Second Degree Murder
+CC161FEL
+Attempts to kill with intent, but not premeditated.
+$3000
+50 months
+Second Degree Murder
+CC162FEL
+Kills with intent, but not premeditated.
+$10000
+160 months
+Second Degree Murder of a Government Employee
+CC163FEL
+2nd-degree murder of a government employee.
+$10000
+240 months
+Attempted First Degree Murder
+CC164FEL
+Attempted willful, deliberate, premeditated killing with malice aforethought.
+$12500
+160 months
+First Degree Murder
+CC165FEL
+Willful, deliberate, premeditated killing with malice aforethought. Hold Until Trial charge.
+$0
+None
+First Degree Murder of a Government Employee
+CC166FEL
+1st-degree murder of a government employee. Hold Until Trial charge.
+$0
+None
+Attempted Mass Murder of LEOs
+CC167FEL
+Attempted intentional killing of 5+ LEOs during lawful duties.
+$9000
+250 months
+False Imprisonment
+CC170MIS
+Holds/restrains a person against their will for an extended time.
+$500
+5 months
+Imprisonment of a Gov. Employee
+CC171FEL
+False imprisonment of a clearly identified government employee.
+$1250
+15 months
+Kidnapping
+CC172FEL
+Takes and abducts a person against their will without consent.
+$750
+15 months
+Kidnapping of a Gov. Employee
+CC173FEL
+Kidnapping of a clearly identified government employee.
+$1250
+120 months
+Hit and Run
+CC174MIS
+Flees a vehicle accident without identifying to the other party.
+$500
+10 months
+Felony Hit and Run
+CC175FEL
+Flees a vehicle accident that results in serious injury.
+$600
+25 months
+Stalking
+CC176FEL
+Repeated unwanted attention/contact causing a reasonable person fear.
+$375
+20 months
+Harassment
+CC177MIS
+Vexatious comment or conduct known to be unwelcome.
+$375
+10 months
+Torture
+CC178FEL
+Causes cruel, prolonged, extreme pain for revenge, extortion, persuasion, or sadism.
+$5000
+200 months
+Extortion
+CC180FEL
+Threats of future harm for personal or financial gain.
+$200
+20 months
+Criminal Threats
+CC181MIS
+Threatening to kill or seriously harm someone, causing reasonable fear.
+$125
+5 months
+Brandishing
+CC182MIS
+Displays a weapon in public without legal justification.
+$175
+5 months
+Gang Related Violence
+CC183MIS
+Gang/club member uses force or violence based on affiliation.
+$500
+15 months
+Gang Related Shooting
+CC184FEL
+Gang/club member discharges a weapon based on affiliation.
+$1000
+30 months
+Reckless Endangerment
+CC185MIS
+Conduct creating a substantial risk of injury or death to another.
+$150
+5 months
+International Kidnapping
+CC186FEL
+Kidnapping involving transport across the SA border. Hold Until Trial charge.
+$0
+None
+Terrorism
+CC190FEL
+Acts dangerous to human life to intimidate/coerce a population or government. Hold Until Trial charge.
+$0
+None
+Petty Theft
+CC200INF
+Taking money or property without permission or legal right.
+$500
+5 months
+Grand Theft
+CC201FEL
+Theft of property valued $20,000+. Excludes vehicle/vessel/aircraft theft.
+$2500
+20 months
+Theft of a Motor Vehicle
+CC202MIS
+Possesses a vehicle without consent, not intending to permanently deprive.
+$500
+5 months
+Grand Theft Auto
+CC203FEL
+Possesses a vehicle without consent, intending to permanently deprive.
+$675
+10 months
+First Degree Robbery
+CC204FEL
+Steals by force/threat from a financial institution or government facility.
+$750
+30 months
+Second Degree Robbery
+CC205FEL
+Steals by force/threat from a person or business.
+$600
+20 months
+Vandalism
+CC206MIS
+Intentionally damaging or destroying property.
+$195
+5 months
+Arson
+CC207FEL
+Deliberately setting fire to property.
+$650
+10 months
+Trespassing
+CC210MIS
+Enters private property without consent, or remains after being asked to leave.
+$125
+5 months
+Felony Trespassing
+CC211FEL
+Trespassing in a restricted area on government property.
+$484
+20 months
+Second Degree Burglary
+CC212MIS
+Entering a property without right in order to commit a crime.
+$390
+10 months
+First Degree Burglary
+CC213FEL
+Burglary of government property, a financial institution, or an occupied dwelling.
+$600
+20 months
+Tampering
+CC214MIS
+Disabling security systems, bypassing locks, or interfering with protective measures.
+$325
+5 months
+Littering
+CC215INF
+Depositing waste in an inappropriate location.
+$50
+None
+Theft of an Aircraft
+CC216FEL
+Operates an aircraft without permission or lawful right.
+$700
+20 months
+Theft of a Vessel
+CC217MIS
+Operates a vessel without permission or lawful right.
+$350
+10 months
+Theft of a Gov. Vehicle
+CC218FEL
+Steals a government vehicle (police, fire, EMS, military).
+$1275
+30 months
+Vandalism of Government Property
+CC219MIS
+Intentionally damaging or destroying government property.
+$350
+10 months
+Fraud
+CC250MIS
+Criminal deception intended to result in financial or personal gain.
+$1300
+10 months
+Felony Fraud
+CC251FEL
+Deception for gain from a business or institution.
+$1950
+20 months
+Forgery
+CC252FEL
+Creates false documentation: ID cards, plates, money, or contracts.
+$520
+20 months
+Impersonating a Government Official
+CC253FEL
+Falsely represents themselves as a government official convincingly.
+$3000
+45 months
+Identity Theft
+CC254FEL
+Fraudulent acquisition and use of private identifying information.
+$750
+10 months
+Weapon Trafficking
+CC300FEL
+Transports/possesses 10+ unregistered or improperly registered weapons/explosives. Hold Until Trial charge.
+$0
+None
+Sale of Illegal Weaponry
+CC301FEL
+Selling/trading weaponry or illegal attachments without a permit.
+$1950
+60 months
+Manufacturing of Weaponry
+CC302FEL
+Creating, or possessing equipment to manufacture, firearms/explosives. Hold Until Trial charge.
+$0
+None
+Negligent Ownership of a Firearm
+CC304INF
+Fails to exercise reasonable care securing, handling, or using a firearm.
+$130
+None
+Criminal Possession of Weapon Attachments
+CC305MIS
+Possesses illegal firearm attachments (suppressors, extended mags).
+$130
+5 months
+Criminal Use of a Firearm
+CC306MIS
+Uses a firearm against someone, or carries it with intent to. Excludes self-defense.
+$650
+10 months
+Criminal Possession of Explosives
+CC307FEL
+Possesses any explosive devices (excludes fireworks), operational or not.
+$1300
+30 months
+Criminal Use of Explosives
+CC308FEL
+Uses an explosive against property or a person (excludes fireworks).
+$2600
+40 months
+Criminal Possession of a Class 1 Firearm
+CC310MIS
+Possesses an improperly registered or illegal Class 1 firearm.
+$350
+10 months
+Criminal Possession of a Class 2 Firearm
+CC311FEL
+Possesses an unregistered, improperly registered, or illegal Class 2 firearm.
+$500
+20 months
+Criminal Possession of a Class 3 Firearm
+CC312FEL
+Possesses an unregistered, improperly registered, or illegal Class 3 firearm.
+$650
+30 months
+Criminal Possession of a Class 4 Firearm
+CC313FEL
+Possesses any unregistered, improperly registered, or illegal Class 4 firearm.
+$7500
+250 months
+Criminal Use of a Weaponized Vehicle
+CC314FEL
+Using a vehicle modified with weapons of war (class 3+ or explosives) in a crime.
+$12500
+300 months
+Desecration of a Corpse
+CC350FEL
+Moves/damages a deceased person without next-of-kin consent or State authority.
+$520
+30 months
+Inciting a Riot
+CC351FEL
+Incites violence as part of an assemblage of three or more.
+$1040
+40 months
+Unlawful Assembly
+CC352MIS
+Gathering intended to disturb the peace or commit an unlawful act.
+$455
+10 months
+Vigilantism
+CC354FEL
+Acts as law enforcement without appropriate authority.
+$1743
+20 months
+False Reporting
+CC355MIS
+Reports a false or non-existent crime.
+$1025
+10 months
+Disturbing the Peace
+CC356INF
+Disruption or nuisance in a public space. Weighed against social benefits/rights.
+$195
+None
+Public Defecation
+CC357MIS
+Urinating or defecating in public, disturbing or vandalizing property.
+$325
+5 months
+Misuse of an Emergency Line
+CC358MIS
+Uses an emergency line without proper cause.
+$250
+5 months
+Failure to Obey a Lawful Order
+CC400INF
+Disobeys a lawful order from a Law Enforcement Officer.
+$260
+5 months
+Resisting
+CC401MIS
+Flees from, or resists being detained/arrested by, an officer.
+$125
+5 months
+Evading
+CC402MIS
+Flees in a vehicle from police to avoid detention/arrest.
+$250
+5 months
+Reckless Evading
+CC403MIS
+Creates a substantial risk of injury/death while evading police.
+$500
+10 months
+Jailbreak
+CC404FEL
+Escapes state custody (Bolingbroke, transport, or hospital). Hold Until Trial charge.
+$0
+None
+Failure to Obey a Court Order
+CC405FEL
+Disobeys a court order. Time/fine at the judge's discretion.
+$0
+None
+Obstruction of Justice
+CC408MIS
+Interferes with the discovery, arrest, conviction, or punishment of a crime.
+$1025
+15 months
+Bribery
+CC409MIS
+Offers a benefit to a public servant for beneficial treatment.
+$409
+10 months
+Corruption
+CC410FEL
+Public servant abuses authority/access through gross negligence or malice.
+$2600
+30 months
+Possession of Gov. Equipment
+CC411MIS
+Possesses or distributes government-issued equipment without authorization.
+$1950
+20 months
+Prosecutorial Misconduct
+CC412FEL
+A prosecutor/officer overcharges in bad faith. Pressed by Special Prosecutor or DA.
+$2600
+45 months
+Voter Fraud
+CC413FEL
+Possesses or uses another's voter registration to cast a ballot.
+$910
+10 months
+Election Interference
+CC414FEL
+Unlawfully interferes with an official election by fraud, deception, or coercion.
+$6500
+120 months
+Evidence Tampering
+CC416FEL
+Tampers, conceals, removes, or transports evidence of a crime.
+$650
+10 months
+Introducing Contraband into a Gov. Facility
+CC417FEL
+Introducing or possessing contraband within a correctional facility.
+$650
+20 months
+Embezzlement
+CC650MIS
+Uses trusted access to steal funds from a private business. Fine per amount.
+$0
+10 months
+Felony Embezzlement
+CC651FEL
+Uses trusted access to steal from a public institution or state agency. Fine per amount.
+$0
+25 months
+Money Laundering
+CC652FEL
+Concealing origins of illegally obtained money via transfers/legit businesses.
+$3120
+30 months
+Antitrust
+CC653FEL
+Anticompetitive practices, illegal market/workforce consolidation. Hold Until Trial charge.
+$0
+None
+Practicing without a License
+CC654FEL
+Performs regulated professional activities without the proper license.
+$2500
+25 months
+Operating a Business without a License
+CC655MIS
+Operates a business without the appropriate licenses.
+$1500
+15 months
+Racketeer Influenced and Corrupt Organization
+CC656FEL
+Commits acts described in the RICO Statute.
+$0
+None
+Campaign Finance Violation
+CC657FEL
+Knowingly violates campaign finance law. Amount determined by court/plea.
+$250
+15 months
+Political Advertising Violation
+CC658FEL
+Knowingly violates political advertising statutes. Amount determined by court/plea.
+$250
+15 months
+Human Smuggling
+CC659FEL
+Transporting a person across international borders to subvert immigration enforcement.
+$5000
+45 months
+Second Degree Smuggling
+CC660FEL
+Subverting customs and transporting unapproved items in/out of SA.
+$2500
+30 months
+First Degree Smuggling
+CC661FEL
+Smuggling involving weapons, controlled substances, or value over $10,000.
+$2500
+30 months
+Immigration Violation
+CC662MIS
+Crossing the SA border without approval or legal cause.
+$500
+15 months
+Prostitution
+CC663MIS
+Knowingly pays or receives a fee for sexual acts.
+$500
+5 months
+Distribution of Pornography
+CC664INF
+Distributes sexually explicit material through public channels or for profit.
+$1250
+10 months
+Human Trafficking
+CC665FEL
+Force/coercion to compel services, labor, or sexual acts; or trafficking persons.
+$6000
+50 months
+Gambling
+CC666MIS
+Participates in, organizes, or operates illegal gambling.
+$250
+5 months
+Felony Gambling
+CC667FEL
+Gambling with wagers or profits over $10,000.
+$5000
+15 months
+Accessory
+CC908INF
+Provides assistance to commit a crime before or after the fact. Half the time of the alleged crime.
+$0
+None
+Treason
+CC957FEL
+Levies war against San Andreas or aids its enemies. Hold Until Trial charge.
+$0
+None
+Sedition
+CC958FEL
+Two+ conspire to overthrow the government by force, hinder its laws, or seize land. Hold Until Trial charge.
+$0
+None
+Espionage
+CC959FEL
+Illegally gathering/transmitting national defense information. Hold Until Trial charge.
+$0
+None
+Breach of Contract
+CS800INF
+Fails to follow the terms of a written or verbal contract.
+$0
+None
+Tort: Negligence
+CS801INF
+Acts without due care, breaching a duty and causing damage.
+$0
+None
+Tort: Malpractice
+CS802INF
+Negligence within a licensed profession.
+$0
+None
+Tort: Defamation
+CS803INF
+A false statement to a third party causing damage (actual malice for officials).
+$0
+None
+Tort: Infliction of Emotional Distress
+CS804INF
+Extreme/outrageous conduct causing severe emotional distress.
+$0
+None
+Tort: Assault
+CS805INF
+Commission of assault against the plaintiff.
+$0
+None
+Tort: Battery
+CS806INF
+Commission of battery against the plaintiff.
+$0
+None
+Tort: False Imprisonment and Kidnapping
+CS807INF
+Illegal restriction of liberty or movement against the plaintiff.
+$0
+None
+Tort: Nuisance
+CS808INF
+Unreasonable interference with another's use and enjoyment of property.
+$0
+None
+Tort: Trespass of Land
+CS809INF
+Going on, or placing something on, another's land without right.
+$0
+None
+Tort: Trespass of Property
+CS810INF
+Unlawful taking or damaging of another's personal property.
+$0
+None
+Tort: Malicious Filings
+CS811INF
+Abusing the court system with unfounded filings or abusive appeals.
+$0
+None
+Tort: Invasion of privacy
+CS812INF
+Publicizing private affairs, intrusion, or releasing private records. No privacy in public.
+$0
+None
+Tort: Fraud
+CS813INF
+Commits fraud against the plaintiff.
+$0
+None
+Constitutional Rights Violation
+CS814INF
+Violating constitutional rights. Not used with other civil statutes.
+$0
+None
+Street Racing
+HC500MIS
+Races a motor vehicle without a proper permit.
+$500
+10 months
+Reckless Speeding
+HC501INF
+Excessive and reckless speed — 35 mph+ over the posted limit.
+$195
+None
+Speeding
+HC502INF
+Faster than legally allowed: 70 highways, 55 routes, 40 city streets.
+$130
+None
+Failure to Stop
+HC503INF
+Fails to stop at signs, intersections, or traffic control devices.
+$65
+None
+Negligent Driving
+HC504INF
+Drives without due care and attention.
+$325
+None
+Illegal Tint
+HC505INF
+Window tint obscuring view of driver/passengers (excl. gov vehicles).
+$65
+None
+Failure to Maintain Lane
+HC506INF
+Fails to keep a proper lane or passes dangerously.
+$65
+None
+Driving While Intoxicated
+HC507MIS
+Driving while impaired by alcohol (>0.08 BAC) or drugs.
+$225
+10 months
+Operating a Motor Vehicle without a License
+HC508INF
+Drives without a valid driver's license in possession.
+$325
+None
+Illegal Parking
+HC509INF
+Parks outside a designated space (crosswalk, driveway, sidewalk, etc).
+$125
+None
+Violation of Disabled Parking Provisions
+HC510INF
+Parks in a disabled space without a permit.
+$65
+None
+Failure to Yield to Emergency Vehicles
+HC511INF
+Fails to pull over for emergency vehicles using lights/sirens.
+$130
+None
+Failure to Display License Plate
+HC512INF
+Fails to display a valid rear plate. No tow for this alone.
+$130
+None
+Impeding Traffic
+HC513INF
+Disrupts or stops the flow of traffic.
+$260
+None
+Tailgating
+HC514INF
+Follows another vehicle at an unsafe distance.
+$130
+None
+Endangering a Passenger
+HC516INF
+Permits a passenger to ride in the trunk or otherwise unsafely.
+$350
+None
+Driving while Obstructed
+HC517INF
+Drives wearing a headset, mask, or earplugs covering both ears.
+$130
+None
+Malfunctioning Vehicle
+HC518INF
+Operates an unroadworthy vehicle (smoke, missing doors, bad lights/tyres).
+$97
+None
+Parking with Expired Meter
+HC519INF
+Fails to pay for a metered parking space.
+$130
+None
+Unroadworthy Vehicle
+HC520INF
+Operates a vehicle not authorized for public roads (golf carts, go-karts, lawnmowers, aircraft).
+$97
+None
+Operating a Motor Vehicle with a Revoked license
+HC521MIS
+Operates a motor vehicle while a license is revoked.
+$750
+5 months
+Hazardous Vehicle Modifications
+HC522FEL
+Vehicle modified to endanger other drivers. Seized for repeated violations.
+$2000
+10 months
+Non-display of an Official Inspector Grade
+HS450INF
+Operating a graded eatery/bar/business without displaying its Health & Safety grade.
+$1300
+None
+Noncompliance with a State Operations Code
+HS451INF
+Repeated noncompliance with DPH health and safety standards.
+$6500
+None
+Unauthorized Excessive Modification of a Gov. Building
+HS452INF
+Unauthorized construction/modification of a government-leased building.
+$1300
+None
+Unauthorized Construction Hazardous or Offensive
+HS453FEL
+Unauthorized construction hazardous or offensive to the public.
+$1300
+15 months
+Public Health Code Violation
+HS454INF
+A condition hazardous to health due to negligence, ignorance, or malice.
+$260
+None
+Public Safety Code Violation
+HS455INF
+Obstruction or condition hazardous to public safety/operations.
+$260
+None
+Contempt of Court (Time)
+JC950MIS
+Disobedience or discourtesy to the Court. Can be stacked.
+$0
+10 months
+Contempt of Court (Fine)
+JC951INF
+Disobedience or discourtesy to the Court. Can be stacked.
+$250
+None
+Failure to Appear
+JC952FEL
+Fails to appear in court without justification. Time/fine at judge's discretion.
+$3250
+30 months
+Interrupting a Scheduled Court Case
+JC953FEL
+Disrupting a scheduled court case in an extreme manner.
+$6250
+500 months
+Perjury
+JC954FEL
+Intentionally provides false testimony under oath.
+$6500
+100 months
+Witness Tampering
+JC955FEL
+Intimidation/force/threats to influence or prevent testimony.
+$5000
+45 months
+Jury Intimidation
+JC956FEL
+Intimidation/force/threats to influence a juror's duties.
+$7500
+90 months
+Hunting/Fishing without a License
+RC700INF
+Hunting or fishing without a license.
+$250
+None
+Hunting/Fishing with a Suspended License
+RC701MIS
+Hunting or fishing with a suspended license.
+$750
+10 months
+Third Degree Animal Cruelty
+RC702MIS
+Harm, neglect, or abuse of animals with intent or negligence.
+$250
+5 months
+Second Degree Animal Cruelty
+RC703FEL
+Inflicts death upon animals with intent or negligence. Not with Mass Animal Cruelty.
+$750
+10 months
+First Degree Animal Cruelty
+RC704FEL
+Inflicts death upon a domesticated animal with intent or negligence.
+$1000
+15 months
+Wildlife Harassment
+RC705MIS
+Deliberately chases, disturbs, or provokes wildlife.
+$375
+5 months
+Poaching
+RC706FEL
+Hunting or fishing in a protected area.
+$1500
+15 months
+Hunting Outside a Permitted Area
+RC707MIS
+Hunting outside a permitted area.
+$750
+10 months
+Hunting with Illegal Equipment
+RC708MIS
+Hunting with a weapon other than the standard hunting rifle.
+$1000
+10 months
+Possession of Protected Species (<10)
+RC709MIS
+Possesses up to 10 protected species of fish or wildlife.
+$1500
+10 months
+Possession of Protected Species (10+)
+RC710FEL
+Possesses more than 10 protected species of fish or wildlife.
+$3000
+15 months
+Destruction of Vegetation
+RC711INF
+Damaging park flora (grass, bushes, trees).
+$125
+None
+Illegal Dumping
+RC712INF
+Abandoning 25kg+ property in parks/beaches/trails, or any hazardous waste.
+$1000
+None
+Trapping without a license
+RC713INF
+Uses traps to catch game/fish without a license.
+$2000
+None
+Trapping with Unregistered Traps
+RC714INF
+Uses traps not registered with the SAPR.
+$750
+None
+Participating in an Animal Fight
+RC717FEL
+Instructs, induces, or supplies animals for an animal fight.
+$500
+15 months
+Spectating an Animal Fight
+RC718MIS
+Spectates or gambles on an animal fight.
+$250
+5 months
+Exceeding Legal Hunting Limits
+RC719INF
+Possesses over the maximum of 15 hunted animals.
+$750
+None
+Mass Animal Cruelty
+RC719FEL
+Combination of 2nd/1st Degree Animal Cruelty against 5+ animals.
+$5250
+80 months
+`;
+
+/* Radio codes: CODE | MEANING | group(R=radio,P=response) */
+const radioRaw=`
+10-2|Loud and clear|R
+10-3|Stop transmitting|R
+10-4|Acknowledgment (OK)|R
+10-6|Busy|R
+10-7|Out of service|R
+10-8|In service|R
+10-9|Repeat|R
+10-13A|LEO down (Emergency)|R
+10-13B|Officer down (non-emergent)|R
+10-19|Returning to base|R
+10-20|Location|R
+10-22|Disregard Last|R
+10-23|Arriving on scene|R
+10-25|Converse in person|R
+10-31|Suspicious activity|R
+10-32|Person with a gun|R
+10-35|Illegal street racing|R
+10-38|Traffic stop|R
+10-41|Starting shift|R
+10-42|Ending shift|R
+10-47|Injured person|R
+10-50|Vehicle collision|R
+10-70|Foot Pursuit|R
+10-76|Enroute|R
+10-77|Needing additionals|R
+10-78|Needing additionals (emergency)|R
+10-80|Vehicle Pursuit|R
+10-90|Robbery in progress|R
+10-95|Suspect in custody|R
+10-99|Shots Fired|R
+Code 1|No lights or siren|P
+Code 2|Lights only|P
+Code 3|Both lights and siren|P
+Code 4|Scene under control|P
+Code 5|Felony stop|P
+Code 6|Searching the area|P
+PBS|Pit, box or spike|P
+RTO|Radio traffic only|P
+UTL|Unable to locate|P
+VCB|Visual contact broken|P
+`;
+
+const amendments=[
+['1st','Freedom of religion, speech, press, assembly, and petition.'],
+['2nd','The right to keep and bear arms.'],
+['3rd','No forced quartering of soldiers in private homes.'],
+['4th','Protects against unreasonable searches and seizures; warrants need probable cause.'],
+['5th','Grand jury, double jeopardy, self-incrimination, due process, just compensation.'],
+['6th','Speedy public trial, impartial jury, counsel, and confronting witnesses.'],
+['7th','Right to a jury trial in civil cases.'],
+['8th','No excessive bail or fines, and no cruel and unusual punishment.'],
+['9th','Rights not listed in the Constitution are still retained by the people.'],
+['10th','Powers not given to the federal government are reserved to the states or people.'],
+['13th','Abolishes slavery and involuntary servitude (except as punishment for a crime).'],
+['14th','Citizenship, due process, and equal protection under state law.'],
+['15th','Right to vote cannot be denied based on race or color.'],
+['19th','Grants women the right to vote.'],
+['26th','Lowers the voting age to 18.'],
+];
+
+/* ===================== PARSERS ===================== */
+function parsePenal(raw){
+  const lines=raw.split('\n').map(s=>s.trim());
+  const codeRe=/^[A-Z]{2}\d{3}(INF|MIS|FEL)$/;
+  const out=[];
+  for(let i=0;i<lines.length;i++){
+    if(codeRe.test(lines[i])){
+      const code=lines[i];
+      // name = nearest previous non-empty line
+      let name='';for(let j=i-1;j>=0;j--){if(lines[j]){name=lines[j];break}}
+      // find fine line (starts with $) after code
+      let k=i+1;const desc=[];
+      while(k<lines.length && !/^\$/.test(lines[k])){if(lines[k])desc.push(lines[k]);k++}
+      const fine=lines[k]||'$0';
+      let m=k+1;while(m<lines.length && !lines[m])m++;
+      const time=lines[m]||'None';
+      const cls=code.slice(-3);
+      const hut=/hold until trial/i.test(desc.join(' '));
+      out.push({code,name,cls,fine,time,desc:desc.join(' '),hut});
+    }
+  }
+  return out;
+}
+function parseRadio(raw){
+  return raw.split('\n').map(s=>s.trim()).filter(Boolean).map(l=>{const[c,m,g]=l.split('|');return{code:c,mean:m,grp:g}});
+}
+const PENAL=parsePenal(penalRaw);
+const RADIO=parseRadio(radioRaw);
+
+/* ===================== AUTHORED CATEGORIES ===================== */
+const COL={legal:'#4C9BE8',force:'#E5484D',radio:'#3FB37F',pursuit:'#E0A22B',caselaw:'#d98a4c',penal:'#c0504d',statutes:'#9b6bd6',constitution:'#6cc0c7',court:'#c79bd6',field:'#2F8F83'};
+
+const DATA=[
+{ id:'legal',label:'Legal Standards',color:COL.legal,
+  entries:[
+    {h:'Reasonable Suspicion',def:'A reason to believe — backed by specific, articulable facts — that a crime has, is, or will take place.',p:'A lower bar than probable cause. It justifies a brief stop, not a full search.',items:[['Detain','Briefly hold the suspect'],['Question','Question the suspect'],['GSR test','If you believe they may have fired a weapon'],['Frisk','Pat-down — only if the Terry prongs are met (RS + armed and dangerous)']],eg:'"Reasonable suspicion allows a stop — not a full search."'},
+    {h:'Probable Cause',def:'Facts and evidence that a crime has, is, or will take place.',p:'A higher bar than reasonable suspicion — a factual basis that makes it reasonable to believe a crime occurred.',items:[['Arrest','Take the suspect into custody'],['Search','Search the suspect or their vehicle'],['Search warrant','Apply for a search warrant'],['Arrest warrant','Issue an arrest warrant']],eg:'"The officer had probable cause based on what was observed at the scene."'},
+    {h:'Detain',def:'Briefly holding a person for investigation, on reasonable suspicion.',p:'The person is not free to leave and cannot be moved away from the scene without their consent. The detention must last no longer than reasonably required to confirm or dispel the suspicion.'},
+    {h:'Arrest',def:'Taking a person into custody for charges — requires probable cause.',p:'A search incident to arrest is permitted, and Miranda must be read before any custodial interrogation.'},
+    {h:'Miranda Warning',def:'The warnings required before questioning someone who is in custody.',p:'Required only when a suspect is in custody AND being interrogated.',eg:'"You have the right to remain silent. Anything you say or do can and will be used against you in the court of law. You have the right to an attorney. If you can\u2019t afford one, one will be provided by the state free of charge if available. Do you understand these rights?"'},
+    {h:'Right to Counsel',def:'A defendant\u2019s right to a lawyer.',p:'If counsel is invoked, questioning must stop until the attorney is present.',eg:'"My client clearly requested an attorney."'},
+    {h:'Plain View Doctrine',def:'Evidence in plain sight can be seized without a warrant.',p:'Three conditions must all be met: the officer is lawfully present, the item is in plain view, and its incriminating nature is immediately apparent.'},
+    {h:'Warrant',def:'A court authorization to search or arrest.',p:'The general rule is that searches require a warrant. The exceptions that follow are the situations where officers may act without one.'},
+    {h:'Consent Search',def:'A search the person voluntarily agrees to.',p:'Consent must be freely given, not coerced — and a person can refuse.',eg:'"The defendant never consented to the search."'},
+    {h:'Search Incident to Arrest',def:'Search an arrested person and their reach.',p:'On a lawful arrest you may search the person and the area within their immediate reach, to secure weapons and preserve evidence.'},
+    {h:'Exigent Circumstances',def:'Emergency situations that require immediate action — no warrant needed to enter.',items:[['Emergency Aid','Entering to give urgent medical aid or protect occupants from imminent harm'],['Destruction of Evidence','Believing a suspect is actively destroying or removing evidence'],['Hot Pursuit','Following a fleeing suspect into a building or home during an ongoing chase'],['Preventing Escape','Stopping a suspect fleeing the jurisdiction before a warrant can physically be obtained']],eg:'"Officers entered without a warrant due to exigent circumstances."'},
+    {h:'Fruit of the Poisonous Tree',def:'Illegally obtained evidence is inadmissible in court.',p:'Also called the exclusionary rule. If the original stop or search was illegal, anything discovered as a result can be excluded.',eg:'An illegal entry leads to discovery of contraband — the contraband may be suppressed.'},
+    {h:'The Six Warrant Exceptions',def:'The situations where you can search without a warrant.',items:[['Exigent circumstances','Urgent emergencies where getting a warrant is impractical'],['Search incident to arrest','The arrested person and the area within reach'],['Consent','The person voluntarily agrees'],['Plain view','Incriminating evidence in plain sight from a lawful vantage point'],['Automobile exception','A vehicle, on probable cause, due to its mobility'],['Stop & frisk (Terry)','A limited pat-down on reasonable suspicion they are armed and dangerous']]},
+    {h:'Burden of Proof',def:'Who has to prove the case.',p:'In a criminal case the prosecution must prove guilt; in a civil case the plaintiff must prove liability. The defense only needs to raise doubt — it never has to prove innocence.'},
+    {h:'Preponderance of the Evidence',def:'The civil standard — more likely than not (~51%).',p:'The lower of the two standards of proof, used in civil disputes.',eg:'"It is more probable the claim is true than false."'},
+    {h:'Beyond a Reasonable Doubt',def:'The criminal standard — near-certainty, with no reasonable alternative explanation.',p:'The highest standard of proof, required to convict in a criminal trial.',eg:'"The evidence leaves no reasonable doubt of guilt."'},
+    {h:'Due Process',def:'The right to fair legal procedure.',p:'Includes notice of the charges, an opportunity to defend, and a neutral judge.'},
+    {h:'Motion to Suppress',def:'A request to exclude evidence obtained unlawfully.',p:'Typically follows an illegal search or a search with no warrant. Related requests include a Motion to Dismiss and a Motion for Continuance.',eg:'"The defense moves the court to exclude this evidence."'},
+    {h:'Brady Material',def:'Evidence favorable to the defense that the prosecution must disclose.',p:'Covers exculpatory evidence (shows innocence) and impeachment evidence (undermines a witness). Failing to disclose it — a Brady violation — can mean suppression, dismissal, or a new trial.',eg:'"The state failed to disclose material evidence favorable to the defense."'},
+  ],
+  cards:[
+    {front:'Standard required to ARREST?',back:'<b>Probable Cause</b> — reasonable belief on facts that a crime occurred.'},
+    {front:'Standard required to DETAIN?',back:'<b>Reasonable Suspicion</b> — specific, articulable facts.'},
+    {front:'RS lets you GSR a suspect when…',back:'…you believe they may have <b>fired a weapon</b>.'},
+    {front:'A search incident to arrest covers…',back:'The <b>arrested person and the area within their reach</b> — for weapons and evidence.'},
+    {front:'Name the six warrant exceptions.',back:'<b>Exigent · search incident to arrest · consent · plain view · automobile · Terry stop-and-frisk.</b>'},
+    {front:'When must Miranda be read?',back:'When a suspect is <b>in custody AND being interrogated</b>. No questions = no need to read it.'},
+    {front:'If a suspect invokes their right to counsel, questioning must…',back:'<b>Stop until the attorney is present</b>.'},
+    {front:'Three conditions of Plain View?',back:'Lawfully present · in plain view · incriminating nature <b>immediately apparent</b>.'},
+    {front:'General rule for searches?',back:'A <b>warrant is required</b> — unless an exception (consent, plain view, exigent circumstances, automobile) applies.'},
+    {front:'Civil standard of proof?',back:'<b>Preponderance of evidence</b> — more likely than not (~51%).'},
+    {front:'Criminal standard of proof?',back:'<b>Beyond a reasonable doubt</b> — no reasonable alternative explanation.'},
+    {front:'Three exigent circumstances?',back:'Danger to life · risk of evidence destruction · <b>hot pursuit</b> of a fleeing suspect.'},
+    {front:'Evidence from an unlawful search is…',back:'<b>Excluded</b> — the fruit of the poisonous tree.'},
+    {front:'What is a Motion to Suppress?',back:'A request to <b>exclude evidence obtained unlawfully</b> (illegal search, no warrant).'},
+    {front:'What must a Consent search be?',back:'<b>Freely given</b>, not coerced.'},
+    {front:'Who carries the burden of proof in a criminal case?',back:'The <b>prosecution</b> — it must prove guilt beyond a reasonable doubt.'},
+    {front:'What is Brady material?',back:'Evidence <b>favorable to the defense</b> (exculpatory or impeachment) the state must disclose.'},
+  ],
+  quiz:[
+    {q:'Specific, articulable facts that someone may be involved in a crime justify…',opts:['A custodial arrest','A brief investigative detention','A warrantless home search','Nothing'],answer:1,why:'Reasonable suspicion supports a brief <b>detention</b> (Terry stop), not an arrest.'},
+    {q:'Which standard is required to make a lawful arrest?',opts:['Reasonable suspicion','A hunch','Probable cause','Consent'],answer:2,why:'<b>Probable cause</b> is the arrest standard.'},
+    {q:'Miranda warnings are triggered by…',opts:['Any traffic stop','Custody + interrogation','Writing a ticket','An arrest alone'],answer:1,why:'Custody <b>and</b> interrogation together trigger Miranda. No questions, no requirement.'},
+    {q:'The civil standard "preponderance of evidence" means roughly…',opts:['100% certain','Beyond a reasonable doubt','More likely than not (~51%)','Probable cause'],answer:2,why:'<b>More likely than not</b> — about 51%.'},
+    {q:'Evidence obtained from an unlawful search may be excluded under…',opts:['Plain view','Fruit of the poisonous tree','The automobile exception','Consent'],answer:1,why:'<b>Fruit of the poisonous tree</b> excludes evidence derived from illegality.'},
+    {q:'A warrantless entry for an immediate danger to life is justified by…',opts:['Consent','Exigent circumstances','A subpoena','Plain feel'],answer:1,why:'<b>Exigent circumstances</b> — danger to life, evidence destruction, or hot pursuit.'},
+  ]
+},
+{ id:'force',label:'Use of Force',color:COL.force,
+  entries:[
+    {h:'Level 1 — Officer Presence',lvl:'NO FORCE',def:'Just being there.',p:'A visible, uniformed officer deters crime and establishes control with no physical contact at all.'},
+    {h:'Level 2 — Verbalization',lvl:'NO FORCE',def:'Words, not hands.',p:'Clear, professional verbal commands and lawful orders to gain compliance without force.'},
+    {h:'Level 3 — Empty-Hand Control',lvl:'LOW',def:'Hands-on control.',p:'Grabs, holds, tackles, punches and kicks — used when verbal commands fail and physical control is needed.'},
+    {h:'Level 4 — Less Lethal',lvl:'INTERMEDIATE',def:'Tools that stop without killing.',p:'Baton, flashlight or taser — designed to incapacitate temporarily without causing permanent injury.'},
+    {h:'Level 5 — Lethal Force',lvl:'DEADLY',def:'Deadly force — the last resort.',p:'Firearms and deadly weapons. Authorised ONLY when there is an imminent threat of death or serious bodily injury.'},
+    {h:'Governing Principle',def:'Use the minimum force necessary.',p:'Always attempt de-escalation when it is safe and feasible, and match your response to the subject\u2019s level of resistance — no more, no less.'},
+  ],
+  cards:[
+    {front:'Level 1?',back:'<b>Officer Presence</b> — no force.'},
+    {front:'Level 2?',back:'<b>Verbalization</b> — no force.'},
+    {front:'Level 3?',back:'<b>Empty-Hand Control</b> — low force (grabs, tackles, strikes).'},
+    {front:'Level 4?',back:'<b>Less Lethal</b> — baton, flashlight, taser.'},
+    {front:'Level 5?',back:'<b>Lethal Force</b> — firearms. Imminent threat of death/serious injury only.'},
+    {front:'When is lethal force authorized?',back:'Only for an <b>imminent threat of death or serious bodily injury</b>.'},
+  ],
+  quiz:[
+    {q:'Shouting, refusing orders, no physical resistance — appropriate level?',opts:['Level 2 Verbalization','Level 4 Taser','Level 5 Lethal','Level 3 Tackle'],answer:0,why:'No physical threat — stay at <b>Verbalization</b>.'},
+    {q:'A taser is which level?',opts:['Level 2','Level 3','Level 4 Less Lethal','Level 5'],answer:2,why:'Taser/baton/flashlight are <b>Level 4</b>.'},
+    {q:'Lethal force is authorized only when…',opts:['A suspect flees','Imminent threat of death/serious injury','A subject is rude','You lose your taser'],answer:1,why:'Deadly force needs an <b>imminent threat of death or serious bodily injury</b>.'},
+    {q:'Tackling a non-compliant suspect is which level?',opts:['Level 1','Level 3 Empty-Hand','Level 4','Level 5'],answer:1,why:'Hands-on force is <b>Level 3</b>.'},
+  ]
+},
+{ id:'pursuit',label:'Pursuit Protocol',color:COL.pursuit,
+  entries:[
+    {h:'Maximum Units',def:'Three units — no more.',p:'A maximum of 3 units may run a pursuit. An interference vehicle allows 1 additional; if suspects split into separate cars, each chase may run its own 3 units. Scene lead can decide fewer are enough.'},
+    {h:'Scene Lead Sets the Order',def:'First on scene runs the chase.',p:'The first officer on scene is scene lead — they set the primary/secondary/tertiary order and approve any PBS.'},
+    {h:'Positions Are Interchangeable',def:'Any unit can fill any role.',p:'Pursuit positions are interchangeable — be ready to fill a gap if a unit crashes or breaks off. Keep spacing: just because you can pass a unit doesn\u2019t mean you should.'},
+    {h:'Primary Unit',def:'Eyes on the suspect.',p:'Maintain visual contact with the suspect, and hold comms when the secondary is unable to.'},
+    {h:'Secondary Unit',def:'Runs the radio.',p:'Maintain radio comms unless the primary is doubled up, and be ready to take over as primary if needed.'},
+    {h:'Tertiary Unit',def:'Predicts and parallels.',p:'Predict and parallel the pursuit, be ready to intercept, and spike or PBS when it is safe and approved — announced clearly.'},
+  ],
+  cards:[
+    {front:'Maximum units in a pursuit?',back:'<b>3 units.</b> An interference vehicle allows 1 more; split suspects can each get their own 3.'},
+    {front:'Who sets the chase order?',back:'The <b>scene lead</b> — the first officer on scene.'},
+    {front:'Primary unit\u2019s job?',back:'<b>Maintain visual</b> with the suspect (and comms when the secondary can\u2019t).'},
+    {front:'Secondary unit\u2019s job?',back:'<b>Radio comms</b>, and be ready to take over as primary.'},
+    {front:'Tertiary unit\u2019s job?',back:'<b>Predict and parallel</b>; intercept, spike or PBS when approved.'},
+    {front:'Are pursuit positions fixed?',back:'<b>No</b> — they\u2019re interchangeable; fill gaps as needed.'},
+  ],
+  quiz:[
+    {q:'Maximum units allowed in a single pursuit?',opts:['2','3','4','Unlimited'],answer:1,why:'<b>Three</b> — with exceptions for interference vehicles or split suspects.'},
+    {q:'Who sets the pursuit order and approves PBS?',opts:['Dispatch','The scene lead','The tertiary unit','Any officer'],answer:1,why:'The <b>scene lead</b> — first officer on scene.'},
+    {q:'The tertiary unit is expected to…',opts:['Maintain visual','Run comms','Predict, parallel and intercept','Stand down'],answer:2,why:'The <b>tertiary</b> predicts and parallels, ready to intercept or PBS.'},
+    {q:'If suspects split into separate vehicles…',opts:['Only chase one','Each chase may run its own 3 units','Call off both','Merge into one chase'],answer:1,why:'Each chase may run its own <b>3 units</b>.'},
+  ]
+},
+{ id:'field',label:'Field Operations',color:COL.field,
+  entries:[
+    {h:'Traffic Stops',def:'The standard stop, by the numbers — remember CKIL.',items:[['C — Call it in','Radio the stop before you approach'],['K — Kill the engine','Have the driver switch off'],['I — Introduce','Rank, name, department, and the reason for the stop'],['L — Licence & Registration','Request and verify their documents']],p:'Primary: position at 45° from the curb, radio in, exit and approach without walking into the kill zone, and check the back seat from the rear before moving up. Secondary: stage behind the primary, run names and plates, and be ready for a pursuit.'},
+    {h:'Felony Stops',def:'High-risk stop for a violent crime or an active warrant.',p:'When possible, wait for at least one additional unit. Positioning — Primary: directly behind the vehicle. Secondary: forms the point of a triangle, adjacent to primary, pointed inward. Tertiary: to the left of secondary, slightly turned.',steps:['Order all occupants to keep their hands visible','Instruct the driver to turn off the engine','Order the driver to toss the keys out the window','Order the driver out of the vehicle','Have each occupant walk backward toward your voice','Place them in cuffs','Repeat with each occupant, one at a time','Once all are in custody, clear the vehicle']},
+    {h:'Foot Pursuits',def:'When a suspect bails from the vehicle.',p:'Get out and give chase. Attempt to tackle before you attempt to tase.'},
+    {h:'PBS — Pit, Box & Spike',def:'Vehicle-stopping tactics — scene lead must approve first.',p:'PBS must be called and cleared by the scene lead before any attempt.',items:[['Pitting','Use your front left or right panel in a swiping motion against their back quarter panel. Only pit with your secondary close behind. Never ram their side.'],['Spiking','Call out in advance where you\u2019re spiking — which lane, and whether it\u2019s oncoming traffic. Pick the strips up after. Never spike stationary vehicles.'],['Boxing','Approach with caution; do not ram officer or suspect vehicles, or push them out of the box.']]},
+    {h:'Scene Lead',def:'The first officer on scene runs it.',list:['Sets the chase order (primary, secondary, tertiary)','Approves PBS in pursuits','Sets the triage location','Directs duties — statements, evidence collection, GSR testing']},
+    {h:'Negotiations',def:'Talk it down — de-escalate, safety first.',p:'Work the ladder: active listening → empathy → rapport → influence → behavioural change. Make initial contact, stay calm and professional, keep fellow officers updated on the situation and demands, and try to meet reasonable demands.',items:[['Unreasonable demands','Police equipment, a police vehicle, a helicopter or aircraft, or money'],['With hostages','Hostage safety is the priority; keep them in sight; never exchange (no life-for-life); lethal force only if hostages are in immediate danger']]},
+    {h:'Warrant Processing',def:'Serving one or many warrants correctly.',p:'A single warrant unrelated to other charges is processed normally. When serving after an unrelated arrest, or serving multiple warrants, the most recent charge is processed last.',steps:['Explain all charges to the suspect and obtain a plea for each report','Begin with the OLDEST report','Finalise charges, select plea & prison, apply appropriate reductions, and keep track of total time','Do NOT send to jail — select \u201CHold Suspect in Place\u201D','Repeat for every warrant except the most recent','For the most recent report, send to jail normally','In the suspect\u2019s MDT profile choose \u201CAdjust Sentence\u201D and combine the time from all reports']},
+    {h:'Chain of Custody',warn:true,p:'When you gather evidence — casings, DNA, statements — YOU are its sole handler. Collect it, run it at PD, then add it to the report. If you leave a scene before collecting evidence you may NOT go back for it: the chain is broken and anything collected could have been tampered with. Collect everything before you leave.'},
+    {h:'Radio Etiquette',def:'Keep the air clear.',list:['Think before you speak — know what you\u2019ll say before you say it','Never break active 10-80 comms for random call-outs like traffic stops','Don\u2019t talk over others','Banter is fine when it\u2019s slow and nothing active is happening — just don\u2019t overdo it']},
+    {h:'Impounding & Marking for Scrap',def:'When and how to pull a vehicle.',p:'Impound or mark for scrap when a vehicle is illegally parked or involved in a crime. Before marking for scrap, run the plate to confirm it isn\u2019t owned. Boosted vehicles must be impounded — wait and follow the tow to the lot for a proper chain of custody.'},
+    {h:'77s vs 78s',def:'Additionals vs emergency.',items:[['10-77','You need an additional unit'],['10-78','Your life, or another officer\u2019s life, is in immediate danger']]},
+    {h:'Field Reminders',def:'Standing \u201Cthings we do\u201D in the field.',list:['After the second swap (third vehicle), shoot the tyres','If a PD vehicle is stolen, PBS is immediately approved — shoot tyres, then take the suspect down with lethal force when safe','On a chase, when suspects swap vehicles PBS is immediately approved — state it over radio','A cuffed but non-compliant suspect may be controlled with open-hand techniques','A suspect who swims out and refuses to return may be warned, then subdued']},
+  ],
+  cards:[
+    {front:'What does CKIL stand for?',back:'<b>Call it in · Kill the engine · Introduce · Licence & registration.</b>'},
+    {front:'Traffic stop — vehicle angle?',back:'<b>45° from the curb.</b>'},
+    {front:'Who must approve PBS?',back:'The <b>scene lead</b>.'},
+    {front:'Foot pursuit — tackle or tase first?',back:'<b>Tackle</b> before you tase.'},
+    {front:'Felony stop — first order to occupants?',back:'<b>Keep hands visible.</b>'},
+    {front:'Can you return for evidence after leaving a scene?',back:'<b>No</b> — the chain of custody is broken.'},
+    {front:'Who is the scene lead?',back:'The <b>first officer on scene</b>.'},
+    {front:'Which warrant/report is processed first?',back:'The <b>oldest</b> — the most recent is processed last.'},
+    {front:'Pitting — which panels?',back:'Your <b>front left or right</b> against their <b>back quarter panel</b>. Never ram the side.'},
+    {front:'10-77 vs 10-78?',back:'<b>77</b> = need an additional; <b>78</b> = life in immediate danger.'},
+    {front:'Is a hostage exchange allowed?',back:'<b>Never</b> — no life-for-life.'},
+    {front:'Unreasonable negotiation demands?',back:'<b>Police equipment, a police vehicle, a helicopter, or money.</b>'},
+    {front:'Before marking a vehicle for scrap you must…',back:'<b>Run the plate</b> to confirm it isn\u2019t owned.'},
+  ],
+  quiz:[
+    {q:'In CKIL, the \u201CI\u201D stands for…',opts:['Inspect the vehicle','Introduce yourself','Issue a citation','Identify the passenger'],answer:1,why:'<b>Introduce</b> — rank, name, department and the reason for the stop.'},
+    {q:'Who approves PBS in a pursuit?',opts:['Dispatch','The scene lead','The primary unit','Any officer'],answer:1,why:'The <b>scene lead</b> must call and clear PBS first.'},
+    {q:'In a foot pursuit you should…',opts:['Tase immediately','Tackle before you tase','Wait for backup only','Draw your firearm'],answer:1,why:'Attempt to <b>tackle before you tase</b>.'},
+    {q:'You leave a scene, then realise you missed some casings. You may…',opts:['Go back and collect them','Not collect them — the chain is broken','Have another officer grab them','Collect them next shift'],answer:1,why:'Leaving first <b>breaks the chain of custody</b> — you can\u2019t collect them afterward.'},
+    {q:'Serving multiple warrants, which report do you process first?',opts:['The most recent','The oldest','The most serious','Any order'],answer:1,why:'Start with the <b>oldest</b>; the most recent is processed last and sent to jail.'},
+    {q:'A 10-78 means…',opts:['You need an additional','An officer\u2019s life is in immediate danger','End of shift','Traffic stop'],answer:1,why:'<b>78</b> = immediate danger to life; <b>77</b> is a routine additional.'},
+  ]
+},
+{ id:'caselaw',label:'Case Law',color:COL.caselaw,
+  entries:[
+    {h:'State v. Barnes',def:'Search the abandoned property of a deported person.',p:'When a person is deported, any property that will not remain in their possession — hotel rooms, abandoned vehicles and the like — may be searched and secured by the State.'},
+    {h:'Carroll v. United States',def:'Search a vehicle without a warrant on probable cause.',p:'The motor-vehicle exception: if you have probable cause that evidence or contraband is inside, no warrant is needed to search the vehicle.'},
+    {h:'Wyoming v. Houghton',def:'That extends to a passenger\u2019s belongings.',p:'Under the automobile exception, a passenger\u2019s container capable of holding the object of the search may be searched without a warrant.'},
+    {h:'Terry v. Ohio',def:'Stop and frisk on reasonable suspicion.',p:'You may pat down a person you reasonably believe has committed, is committing, or is about to commit a crime AND is armed and dangerous.'},
+    {h:'Illinois v. Wardlow',def:'Running in a high-crime area is reasonable suspicion.',p:'Unprovoked flight or evasive behaviour from an identifiable officer, combined with a high-crime area, justifies a Terry stop.'},
+    {h:'Minnesota v. Dickerson',def:'Feel contraband during a frisk? Seize it.',p:'\u201CPlain feel\u201D: during a lawful weapons pat-down, an object that is obviously contraband may be seized even though it isn\u2019t a weapon.'},
+    {h:'Pennsylvania v. Mimms',def:'Order everyone out of the car.',p:'On a traffic stop you may order the driver and passengers out at any time; passengers are detained. A frisk is allowed on reasonable suspicion they are armed and dangerous.'},
+    {h:'Tennessee v. Garner',def:'Deadly force needs an immediate threat.',p:'Deadly force to stop a fleeing suspect is only allowed on a good-faith belief they pose an immediate risk of death or injury to officers or others.'},
+    {h:'Scott v. Harris',def:'You may end a dangerous chase.',p:'Terminating a high-speed chase that threatens bystanders does not violate the Fourth Amendment, even if it risks the fleeing driver.'},
+    {h:'Miranda v. Arizona',def:'Read rights before custodial questioning.',p:'Statements from questioning a suspect in custody are inadmissible unless they were advised of their Fifth Amendment rights. No questions means no requirement.'},
+    {h:'Maryland v. King',def:'DNA at booking is allowed for serious crimes.',p:'Minimally-invasive DNA collection during routine booking for severe crimes does not violate the Fourth Amendment.'},
+    {h:'Rags v. San Andreas',def:'Inspect a hunter or fisher\u2019s haul anywhere.',p:'A reasonable belief a person was hunting or fishing allows a search of their person, containers and nearby vehicles to inspect the catch — anywhere in the state.'},
+    {h:'Castle v. San Andreas',def:'Self-defence has four elements.',p:'(1) A response to an unprovoked attack, (2) that threatens imminent injury or death, (3) using objectively reasonable force, (4) reported to law enforcement as soon as it is safe.'},
+    {h:'Doegood v. San Andreas',def:'Good Samaritans can\u2019t be sued for helping.',p:'Someone who renders emergency assistance cannot be sued for it unless their actions were negligent.'},
+  ],
+  cards:[
+    {front:'Search a vehicle without a warrant on probable cause?',back:'<b>Carroll v. United States</b> — the motor vehicle exception.'},
+    {front:'Search a deported person\u2019s abandoned property?',back:'<b>State v. Barnes.</b>'},
+    {front:'Search a passenger\'s container under the auto exception?',back:'<b>Wyoming v. Houghton</b>.'},
+    {front:'Stop & frisk on reasonable suspicion + armed/dangerous?',back:'<b>Terry v. Ohio</b>.'},
+    {front:'Flight in a high-crime area = reasonable suspicion?',back:'<b>Illinois v. Wardlow</b>.'},
+    {front:'Seize contraband felt during a lawful pat-down?',back:'<b>Minnesota v. Dickerson</b> — plain feel.'},
+    {front:'Order driver & passengers out on a traffic stop?',back:'<b>Pennsylvania v. Mimms</b>.'},
+    {front:'Deadly force on a fleeing suspect — limit?',back:'<b>Tennessee v. Garner</b> — only if they pose an immediate risk.'},
+    {front:'Ending a dangerous high-speed chase is lawful?',back:'<b>Scott v. Harris</b>.'},
+    {front:'Statements inadmissible without the warnings?',back:'<b>Miranda v. Arizona</b>.'},
+    {front:'DNA at booking for severe crimes is OK?',back:'<b>Maryland v. King</b>.'},
+    {front:'Search a hunter/fisher\'s catch anywhere in state?',back:'<b>Rags v. San Andreas</b>.'},
+    {front:'Four elements of self-defense?',back:'<b>Castle v. San Andreas</b> — unprovoked, imminent, reasonable force, reported.'},
+    {front:'Good Samaritan protection from suit?',back:'<b>Doegood v. San Andreas</b>.'},
+  ],
+  quiz:[
+    {q:'Which case lets you search a vehicle without a warrant on probable cause?',opts:['Terry v. Ohio','Carroll v. United States','Miranda v. Arizona','Scott v. Harris'],answer:1,why:'<b>Carroll</b> — the motor vehicle exception.'},
+    {q:'Unprovoked flight in a high-crime area gives reasonable suspicion under…',opts:['Illinois v. Wardlow','Maryland v. King','Castle v. SA','Doegood v. SA'],answer:0,why:'<b>Illinois v. Wardlow</b>.'},
+    {q:'You may order a driver AND passengers out of a vehicle on a stop because of…',opts:['Wyoming v. Houghton','Pennsylvania v. Mimms','Rags v. SA','Terry v. Ohio'],answer:1,why:'<b>Pennsylvania v. Mimms</b> — passengers are detained too.'},
+    {q:'Deadly force on a fleeing suspect is limited by…',opts:['Scott v. Harris','Tennessee v. Garner','Carroll v. US','Miranda v. Arizona'],answer:1,why:'<b>Tennessee v. Garner</b> — only if they pose an immediate risk.'},
+    {q:'During a lawful weapons frisk you feel an object that is plainly contraband. You may seize it under…',opts:['Minnesota v. Dickerson','Terry v. Ohio','Maryland v. King','Castle v. SA'],answer:0,why:'<b>Minnesota v. Dickerson</b> — plain feel.'},
+    {q:'How many elements does self-defense require under Castle v. San Andreas?',opts:['Two','Three','Four','Five'],answer:2,why:'<b>Four</b>: unprovoked attack, imminent threat, reasonable force, reported to LE.'},
+  ]
+},
+{ id:'statutes',label:'Statutes',color:COL.statutes,
+  entries:[
+    {h:'Firearm Class 1',def:'Standard handguns.',p:'Single-action, double-action or semi-automatic handguns. This is what a Concealed Carry License covers.'},
+    {h:'Firearm Class 2',def:'Shotguns & hunting rifles.',p:'Break-action and pump shotguns, legal-calibre bolt-action rifles, and other rifles registered for hunting.'},
+    {h:'Firearm Class 3',def:'Automatic & tactical firearms.',p:'Automatic handguns, semi- or fully-automatic shotguns, and semi- or fully-automatic rifles in any legal calibre.'},
+    {h:'Firearm Class 4',def:'Military ordnance.',p:'Explosive-ordnance launchers, missiles and other projectile equipment reserved for United States or San Andreas military.'},
+    {h:'Concealed Carry License',def:'Lets you carry a Class 1 firearm.',p:'Revoked on conviction of any violent felony, any firearm felony, or the illegal possession/distribution of firearms. Restored after 2 weeks without limiting factors.'},
+    {h:'Driver\u2019s Licence — Revocation',def:'When a licence gets pulled, and how to get it back.',items:[['DUI','Immediate revocation'],['7 in a day','7 highway infractions/misdemeanours in one day'],['10 in a week','10 vehicle-related misd/inf within 7 days'],['5 citations','5 unpaid citations'],['Restoration','14-day wait after a DUI, 7 days otherwise — no vehicle offences during the wait, plus a fee set by the judiciary']]},
+    {h:'Mandatory Compliance (DUI)',def:'Refuse the breathalyzer, lose the licence.',p:'On probable cause of impairment an officer may order a breathalyzer. Refusing it immediately forfeits the licence and allows detention for a blood sample and toxicology report.'},
+    {h:'Hold Until Trial (HUT)',def:'Some charges mean no bail — held until trial.',p:'HUT charges require remand to holding. Within 24 hours: a docket notice (name, contact, charge, arrest time, record) and the bail amount/conditions. Within 72 hours: the full investigation record and officer/attorney availability.'},
+    {h:'Statute of Limitations',def:'How long you have to press charges.',items:[['30 days — default','Every charge; warrants stay active only 3 days'],['45 days','Felony Embezzlement, Antitrust, Bribery, Prosecutorial Misconduct, International Kidnapping'],['60 days','First Degree Murder, Terrorism']],p:'Fleeing across a border voids the warrant and resets the clock to a 30-day minimum — per flight.'},
+    {h:'Standard Bail Conditions',def:'The default rules while out on bail.',list:['No drugs or alcohol','No misdemeanours or felonies','No weapons, firearms or knives','Subject to frisk during lawful detainment','Phone and address on file with the court','No contact with victims or adverse witnesses','Cannot leave San Andreas']},
+    {h:'DNA Analysis Act',def:'Swabs at felony scenes, retained on file.',p:'Officers may cheek-swab at felony scenes during processing and run it against investigations, keeping it on the profile. A warrant is needed for swabs or blood from suspects on probable cause; profile upload only follows a violent-felony conviction.'},
+    {h:'Self-Defence',def:'An affirmative right that shifts the burden.',p:'Once credible evidence suggests self-defence, the burden shifts to the prosecution to disprove one of its elements beyond a reasonable doubt (State v. Ford / Castle v. San Andreas).'},
+    {h:'Insanity',def:'Not a defence in San Andreas.',p:'Insanity is not recognised. The State may allow for a brief moment of extreme stress or confusion from recent events — but only where a reasonable person would have acted the same way.'},
+    {h:'Hunting Regulations',def:'What, where and how much you can hunt.',items:[['Allowed species','Deer, rabbits, coyotes, boars'],['Protected','Mountain lions — never hunt'],['Limit','Maximum 15 of each allowed species'],['Areas','Mt. Chiliad, Mt. Gordo, Mt. Josiah, San Chianski, Palomino Highlands'],['Sanctuaries','Lago Zancudo, Governor\u2019s Island — no hunting']]},
+    {h:'Vehicle Forfeiture',def:'Vehicles used in felonies are forfeited.',p:'Cars, boats and planes used to facilitate a felony are forfeited. Stolen vehicles may be seized to auction or destroy when the owner is knowingly connected to the crime.'},
+    {h:'Fines to Mines',def:'Big unpaid fines mean labour.',p:'Owing $2,000+ where the oldest fine is over a week old can mean compelled labour. Prison sentences extend by 10 months for every $5,000 in outstanding fines.'},
+    {h:'Mask Mandate',def:'No masks in public — remove on order.',p:'Masks are prohibited in public except for safety as part of employment. Refusing an officer\u2019s order to remove one is a Level One charge, and masks or obstructions aren\u2019t allowed in licence photos.'},
+  ],
+  cards:[
+    {front:'Class of an automatic handgun?',back:'<b>Class 3.</b>'},
+    {front:'Class of a standard semi-auto handgun?',back:'<b>Class 1.</b>'},
+    {front:'Class of launchers / missiles?',back:'<b>Class 4</b> — military projectile equipment.'},
+    {front:'Class of a pump shotgun / hunting bolt rifle?',back:'<b>Class 2.</b>'},
+    {front:'What does a Concealed Carry License grant?',back:'Carry of a <b>Class 1 firearm</b>.'},
+    {front:'DUI license restoration wait?',back:'<b>14 days</b> (other suspensions: 7 days).'},
+    {front:'Refusing a breathalyzer on probable cause…',back:'…<b>immediately forfeits the license</b> and allows detention for a blood sample.'},
+    {front:'How many unpaid citations trigger revocation?',back:'<b>5 unpaid citations.</b>'},
+    {front:'Default statute of limitations to press charges?',back:'<b>30 days</b>; warrants active only <b>3 days</b>.'},
+    {front:'SoL window for First Degree Murder & Terrorism?',back:'<b>60 days.</b>'},
+    {front:'Is insanity a defense in San Andreas?',back:'<b>No</b> — insanity is not an allowed defense.'},
+    {front:'Protected (no-hunt) species?',back:'<b>Mountain lions.</b> Max 15 each of allowed species.'},
+    {front:'Allowed hunting species?',back:'<b>Deer, rabbits, coyotes, boars.</b>'},
+    {front:'HUT docket notice deadline?',back:'<b>Within 24 hours</b> (full investigation within 72h).'},
+    {front:'Refusing to remove a mask when ordered =',back:'A <b>Level One charge</b>.'},
+  ],
+  quiz:[
+    {q:'An automatic handgun is which firearm class?',opts:['Class 1','Class 2','Class 3','Class 4'],answer:2,why:'Automatic handguns are <b>Class 3</b>.'},
+    {q:'A standard semi-automatic pistol is which class?',opts:['Class 1','Class 2','Class 3','Class 4'],answer:0,why:'Semi-auto handguns are <b>Class 1</b>.'},
+    {q:'Missiles and explosive launchers are which class?',opts:['Class 2','Class 3','Class 4','Unclassified'],answer:2,why:'<b>Class 4</b> — reserved for military.'},
+    {q:'How long must a driver wait to restore a license after a DUI?',opts:['7 days','14 days','30 days','No wait'],answer:1,why:'<b>14 days</b> for DUI; 7 days for other suspensions.'},
+    {q:'How many unpaid citations allow immediate license revocation?',opts:['2','3','5','10'],answer:2,why:'<b>5 unpaid citations</b>.'},
+    {q:'The default statute of limitations to press charges is…',opts:['3 days','30 days','45 days','60 days'],answer:1,why:'<b>30 days</b> by default; warrants stay active only 3 days.'},
+    {q:'First Degree Murder and Terrorism have a charging window of…',opts:['30 days','45 days','60 days','No limit'],answer:2,why:'<b>60 days</b>.'},
+    {q:'Is insanity an allowed defense in San Andreas?',opts:['Yes','No','Only for felonies','Only with a doctor'],answer:1,why:'<b>No</b> — insanity is not recognized as a defense.'},
+    {q:'Which species is protected from hunting?',opts:['Deer','Boar','Mountain lion','Coyote'],answer:2,why:'<b>Mountain lions</b> are protected; deer/rabbits/coyotes/boars are allowed.'},
+  ]
+},
+{ id:'constitution',label:'Constitution',color:COL.constitution,
+  entries:[
+    {h:'San Andreas — Trial Rights',def:'Juries for everything, waivable for speed.',p:'Trial by jury extends to all misdemeanours and felonies, and to civil claims seeking only money. A bench trial is available for crimes not requiring confinement until trial, and juries may be waived for a speedy trial.'},
+    {h:'San Andreas — Liberty Protections',def:'Core protections against the State.',list:['No imprisonment for civil debt alone','No bill of attainder, and no ex post facto prosecution','Bail by sufficient sureties (except serious felonies where release risks great harm or flight)','The right to represent yourself (pro se) cannot be infringed']},
+    {h:'San Andreas — Structure',def:'How the State is built.',items:[['Branches','Executive & Judicial'],['Governor & Lt. Governor','Elected every 3 months'],['Trial court','5 elected judges, 6-month terms'],['Supreme Court','3 Justices'],['Pardons','Governor only — cannot self-pardon'],['Executive Bills','Up to 5 single-subject bills per term']]},
+    {h:'State Official Accountability',def:'The crimes that remove an official from office.',list:['Corruption or misuse of office','Treason','Perjury in court','Prosecutorial misconduct','Bribery'],p:'Conviction on any of these removes the official from office regardless of immunity. Impeachment also strips immunity and bars future office.'},
+    {h:'US Bill of Rights (core for officers)',def:'The amendments you lean on most.',items:[['4th','Unreasonable searches & seizures; warrants on probable cause'],['5th','Self-incrimination, double jeopardy, due process'],['6th','Speedy trial, counsel, confront witnesses'],['8th','No excessive bail or fines; no cruel & unusual punishment'],['14th','Due process & equal protection at the state level']]},
+    {h:'US Amendments',amend:true,def:'Every amendment at a glance.'},
+  ],
+  cards:[
+    {front:'4th Amendment protects…',back:'Against <b>unreasonable searches and seizures</b>; warrants need probable cause.'},
+    {front:'5th Amendment includes…',back:'<b>Self-incrimination, double jeopardy, due process</b>, grand jury, just compensation.'},
+    {front:'6th Amendment guarantees…',back:'<b>Speedy public trial, counsel, and confronting witnesses</b>.'},
+    {front:'8th Amendment bars…',back:'<b>Excessive bail/fines</b> and <b>cruel and unusual punishment</b>.'},
+    {front:'2nd Amendment protects…',back:'The right to <b>keep and bear arms</b>.'},
+    {front:'SA: how often is the Governor elected?',back:'<b>Every 3 months</b> (with the Lt. Governor).'},
+    {front:'SA: how many trial judges and Justices?',back:'<b>5 elected trial judges</b> · <b>3 Supreme Court Justices</b>.'},
+    {front:'SA: can the Governor self-pardon?',back:'<b>No</b> — the Governor holds sole pardon power but cannot pardon themselves.'},
+    {front:'SA: jury trial extends to…',back:'<b>All misdemeanors and felonies</b>, and money-only civil claims.'},
+    {front:'SA: pro se right?',back:'The right to <b>represent yourself</b> cannot be infringed.'},
+  ],
+  quiz:[
+    {q:'Which amendment governs searches and seizures?',opts:['1st','4th','5th','8th'],answer:1,why:'The <b>4th</b> Amendment.'},
+    {q:'Protection against self-incrimination comes from the…',opts:['4th','5th','6th','7th'],answer:1,why:'The <b>5th</b> Amendment.'},
+    {q:'No cruel and unusual punishment, no excessive bail — which amendment?',opts:['6th','7th','8th','10th'],answer:2,why:'The <b>8th</b> Amendment.'},
+    {q:'In San Andreas the Governor is elected every…',opts:['Month','3 months','6 months','Year'],answer:1,why:'<b>Every 3 months</b>.'},
+    {q:'The San Andreas trial court is composed of…',opts:['3 judges','5 elected judges','7 judges','1 judge'],answer:1,why:'<b>5 elected judges</b> (6-month terms).'},
+    {q:'Can the Governor of San Andreas pardon themselves?',opts:['Yes','No','Only post-conviction','Only once'],answer:1,why:'<b>No</b> — self-pardon is prohibited.'},
+  ]
+},
+{ id:'court',label:'Court Procedure',color:COL.court,
+  entries:[
+    {h:'Objections',def:'Short, immediate challenges to an improper question or evidence.',items:[['Relevance','The question has nothing to do with the case'],['Hearsay','Repeating something the witness didn\u2019t personally observe'],['Speculation','The witness is guessing'],['Leading','Suggesting the answer on direct examination'],['Argumentative','A hostile or provoking question'],['Asked & Answered','The same question, asked again'],['Lacks Foundation','Evidence introduced without proper background'],['Improper Opinion','A lay witness giving expert conclusions'],['Non-Responsive','The witness isn\u2019t answering the question'],['Assumes Facts','Facts not in evidence built into the question'],['Compound','Two questions packed into one'],['Legal Conclusion','Asking the witness to decide the law']]},
+    {h:'Types of Evidence',def:'The forms proof can take in court.',items:[['Testimonial','Witness statements — turns on credibility'],['Physical','Weapons, drugs, items — turns on chain of custody'],['Documentary','Reports, records, written proof'],['Digital','Video, surveillance, phone logs'],['Demonstrative','Maps, diagrams, reconstructions'],['Expert','Specialist testimony — ballistics, medical examiner']]},
+    {h:'Direct vs Cross',def:'Who asks the questions, and how.',items:[['Direct','By the side that called the witness — leading questions not allowed'],['Cross','By the opposing side — leading questions allowed, to test credibility'],['Redirect','Follow-up after cross to clarify or repair']]},
+    {h:'Courtroom Roles',def:'Who does what in the room.',items:[['Judge','Controls proceedings, rules on objections, instructs the jury'],['Prosecutor','Represents the State; must prove guilt beyond a reasonable doubt'],['Defense Attorney','Protects the defendant\u2019s rights; challenges evidence'],['Clerk','Manages filings and scheduling'],['Bailiff','Maintains courtroom order and security'],['Jury','Determines the facts and delivers a verdict']]},
+    {h:'Pretrial Steps',def:'From charges to trial.',items:[['Arraignment','First appearance — charges read, plea entered (guilty / not guilty / no contest)'],['Plea Deal','Resolves a case without trial — usually reduced charges or sentence'],['Subpoena','Compels a person to appear or produce documents'],['Deposition','Sworn out-of-court testimony taken before trial']]},
+  ],
+  cards:[
+    {front:'Objection when a witness repeats what they didn\'t observe?',back:'<b>Hearsay.</b>'},
+    {front:'Objection when a lawyer suggests the answer on direct?',back:'<b>Leading the witness.</b>'},
+    {front:'Objection when a witness is guessing?',back:'<b>Speculation.</b>'},
+    {front:'Objection for two questions in one?',back:'<b>Compound question.</b>'},
+    {front:'Are leading questions allowed on cross?',back:'<b>Yes</b> — allowed on cross, not on direct.'},
+    {front:'Key issue for physical evidence?',back:'<b>Chain of custody.</b>'},
+    {front:'Who must prove guilt beyond a reasonable doubt?',back:'The <b>prosecutor</b> (the State).'},
+    {front:'First appearance where charges are read?',back:'<b>Arraignment</b> — defendant enters a plea.'},
+    {front:'Three possible pleas?',back:'<b>Guilty · Not guilty · No contest.</b>'},
+  ],
+  quiz:[
+    {q:'A witness repeats something they never personally observed. Objection?',opts:['Relevance','Hearsay','Leading','Foundation'],answer:1,why:'<b>Hearsay.</b>'},
+    {q:'Leading questions are allowed during…',opts:['Direct examination','Cross-examination','Opening statements','Arraignment'],answer:1,why:'Leading is allowed on <b>cross</b>, not direct.'},
+    {q:'The key issue for physical evidence is…',opts:['Relevance','Chain of custody','Hearsay','Credibility'],answer:1,why:'<b>Chain of custody.</b>'},
+    {q:'At which step are charges first read and a plea entered?',opts:['Deposition','Arraignment','Closing','Subpoena'],answer:1,why:'The <b>arraignment</b>.'},
+    {q:'Two questions packed into one draws which objection?',opts:['Argumentative','Compound question','Non-responsive','Speculation'],answer:1,why:'<b>Compound question.</b>'},
+  ]
+},
+];
+
+/* ===================== STATE ===================== */
+const store={get(k,f){try{const v=localStorage.getItem(k);return v==null?f:JSON.parse(v)}catch(e){return f}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let mode='manual',activeCat='all',examState=null;
+let known=store.get('fib_known',{});
+let penalFilter={q:'',cls:'ALL',expanded:false};
+let openTabs=store.get('fib_tabs',['all']);
+let collapsed=store.get('fib_collapsed',false);
+const view=document.getElementById('view'),chipsEl=document.getElementById('chips');
+
+const CATS=[...DATA.map(c=>({id:c.id,label:c.label,color:c.color})),{id:'radio',label:'Radio Codes',color:COL.radio},{id:'penal',label:'Penal Code',color:COL.penal}];
+const ABBR={all:'ALL',legal:'LEG',force:'UOF',pursuit:'PUR',field:'FLD',caselaw:'LAW',statutes:'STA',constitution:'CON',court:'CRT',radio:'RAD',penal:'PEN'};
+function abbr(id){return ABBR[id]||id.slice(0,3).toUpperCase()}
+function catColor(id){return (CATS.find(c=>c.id===id)||{}).color||COL.legal}
+function catLabel(id){return (CATS.find(c=>c.id===id)||{}).label||id}
+
+/* ---- generated decks ---- */
+function radioCards(){return RADIO.map((r,i)=>({key:'radio-'+i,front:r.code,back:'<b>'+r.mean+'</b>',cat:'Radio Codes',color:COL.radio,t:r.grp}))}
+function penalCards(){return PENAL.map((p,i)=>({key:'penal-'+i,front:p.name,back:'<b>'+p.code+'</b> · '+clsName(p.cls)+(p.hut?' · HUT':'')+'<br>'+p.fine+' · '+p.time,cat:'Penal Code',color:COL.penal,t:p.cls,hut:p.hut}))}
+function amendCards(){return amendments.map((a,i)=>({key:'amend-'+i,front:a[0]+' Amendment',back:'<b>'+a[1]+'</b>',cat:'Constitution',color:COL.constitution}))}
+function clsName(c){return c==='INF'?'Infraction':c==='MIS'?'Misdemeanor':'Felony'}
+
+/* ===================== CHROME / CLEARANCE ===================== */
+function renderChips(){
+  const item=(id,label,color)=>`<button class="chip ${activeCat===id?'active':''} ${openTabs.includes(id)?'open':''}" data-cat="${id}" title="${label}"><span class="tag" style="--c:${color}"></span><span class="chip-label">${label}</span><span class="chip-abbr" style="color:${color}">${abbr(id)}</span></button>`;
+  let html=item('all','All sections','var(--muted)');
+  html+=CATS.map(c=>item(c.id,c.label,c.color)).join('');
+  chipsEl.innerHTML=html;
+  chipsEl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>openTab(b.dataset.cat));
+}
+function focusTab(id){activeCat=id;examState=null;examPhase='setup';drillType='all';renderTabs();renderChips();updateReadout();render()}
+function openTab(id){
+  if(!openTabs.includes(id))openTabs.push(id);
+  store.set('fib_tabs',openTabs);
+  focusTab(id);
+}
+function closeTab(id){
+  const i=openTabs.indexOf(id);if(i<0)return;
+  openTabs.splice(i,1);
+  if(!openTabs.length)openTabs=['all'];
+  store.set('fib_tabs',openTabs);
+  if(activeCat===id)focusTab(openTabs[Math.min(i,openTabs.length-1)]||'all');
+  else{renderTabs();renderChips()}
+}
+function renderTabs(){
+  const el=document.getElementById('sectionTabs');if(!el)return;
+  const show=!(openTabs.length===1&&openTabs[0]==='all');
+  el.style.display=show?'flex':'none';
+  if(!show){el.innerHTML='';return}
+  el.innerHTML=openTabs.map(id=>`<div class="stab ${activeCat===id?'active':''}" data-tab="${id}"><span class="dot" style="background:${id==='all'?'var(--muted-2)':catColor(id)}"></span><span>${id==='all'?'All sections':catLabel(id)}</span><button class="x" data-close="${id}" title="Close tab" aria-label="Close tab">&times;</button></div>`).join('');
+  el.querySelectorAll('.stab').forEach(t=>t.onclick=e=>{if(e.target.closest('.x'))return;focusTab(t.dataset.tab)});
+  el.querySelectorAll('.x').forEach(x=>x.onclick=e=>{e.stopPropagation();closeTab(x.dataset.close)});
+}
+function setCollapsed(v){collapsed=v;store.set('fib_collapsed',v);const s=document.getElementById('sidebar');if(s)s.classList.toggle('collapsed',v);const t=document.getElementById('railToggle');if(t){t.innerHTML=v?'\u00BB':'\u00AB';t.title=v?'Expand sidebar':'Collapse sidebar'}}
+function updateReadout(){document.getElementById('moduleReadout').textContent='SECTION: '+(activeCat==='all'?'ALL':catLabel(activeCat).toUpperCase())}
+function activeIds(){return activeCat==='all'?CATS.map(c=>c.id):[activeCat]}
+function allDeck(){let d=[];DATA.forEach(c=>c.cards.forEach((x,i)=>d.push({...x,key:c.id+'-'+i,cat:c.label,color:c.color})));d=d.concat(radioCards(),penalCards(),amendCards());return d}
+function totalCards(){return allDeck().length}
+function knownCount(){return Object.values(known).filter(Boolean).length}
+function updateClearance(){const pct=Math.round(knownCount()/totalCards()*100);document.getElementById('clearPct').textContent=pct+'%';document.getElementById('clearMeter').style.width=pct+'%'}
+
+/* ===================== MANUAL ===================== */
+function slug(s){return String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}
+function renderManual(){
+  const ids=activeIds();let html='';
+  ids.forEach(id=>{
+    if(id==='penal'){html+=penalManual();return}
+    if(id==='radio'){html+=radioManual();return}
+    const c=DATA.find(x=>x.id===id);if(!c)return;
+    html+=`<section class="topic"><div class="topic-head"><span class="swatch" style="--c:${c.color}"></span><h2>${c.label}</h2><span class="count">${c.entries.length} ENTRIES</span></div><div class="topic-body">${c.entries.map(e=>renderEntry(e,c.color,c.id)).join('')}</div></section>`;
+  });
+  view.innerHTML=html;
+  if(ids.includes('penal'))wirePenal();
+}
+function renderEntry(e,color,secId){
+  const aid=e.h?` id="a-${secId}-${slug(e.h)}"`:'';
+  let b='';
+  if(e.warn){b=`<h3>${e.h}</h3><div class="warn"><b>⚠ CRITICAL.</b> ${e.p}</div>`;return `<div class="entry"${aid}>${b}</div>`}
+  b=`<h3>${e.lvl?`<span class="lvl" style="--c:${color}">${e.lvl}</span>`:''}${e.h}</h3>`;
+  if(e.def)b+=`<p class="def">${e.def}</p>`;
+  if(e.p)b+=`<p>${e.p}</p>`;
+  if(e.req)b+=`<div class="req">${e.req.replace(/Required for:/,'<b>Required for:</b>')}</div>`;
+  if(e.list)b+=`<ul class="blist">${e.list.map(x=>`<li>${x}</li>`).join('')}</ul>`;
+  if(e.items)b+=`<div class="dlist">${e.items.map(x=>`<div class="dl-item"><div class="dl-term">${x[0]}</div><div class="dl-desc">${x[1]}</div></div>`).join('')}</div>`;
+  if(e.steps)b+=`<ol class="olist">${e.steps.map(x=>`<li>${x}</li>`).join('')}</ol>`;
+  if(e.eg)b+=`<div class="eg">${e.eg}</div>`;
+  if(e.amend)b+=`<div class="grid-list">${amendments.map(a=>`<div class="gl-item" id="a-constitution-amd-${slug(a[0])}"><span class="q">${a[0]}</span><span style="text-align:right;font-size:11.5px">${a[1]}</span></div>`).join('')}</div>`;
+  return `<div class="entry${e.def?' def-entry':''}"${aid} style="--c:${color}">${b}</div>`;
+}
+function radioManual(){
+  const grp=(g)=>RADIO.filter(r=>r.grp===g).map(r=>`<div class="gl-item" id="a-radio-${slug(r.code)}"><span class="q">${r.code}</span><span>${r.mean}</span></div>`).join('');
+  return `<section class="topic"><div class="topic-head"><span class="swatch" style="--c:${COL.radio}"></span><h2>Radio Codes</h2><span class="count">${RADIO.length} CODES</span></div><div class="topic-body">
+    <div class="entry"><h3>10-Codes</h3><div class="grid-list">${grp('R')}</div></div>
+    <div class="entry"><h3>Response Codes</h3><div class="grid-list">${grp('P')}</div></div>
+    <div class="entry"><h3>Protocol</h3><p>Acknowledge transmissions with "10-4" and your callsign. Keep it brief. In an emergency, state "10-13A/B" or "10-99" first.</p></div>
+  </div></section>`;
+}
+function penalManual(){
+  const f=penalFilter;
+  const rows=PENAL.filter(p=>{
+    if(f.cls==='HUT')return p.hut;
+    if(f.cls!=='ALL'&&p.cls!==f.cls)return false;
+    if(f.q){const s=(p.code+' '+p.name+' '+p.desc).toLowerCase();return s.includes(f.q.toLowerCase())}
+    return true;
+  });
+  const pill=(k,lbl)=>`<button class="pill ${f.cls===k?'on':''}" data-k="${k}">${lbl}</button>`;
+  const body=rows.map(p=>`<tr>
+    <td class="ccode">${p.code}</td>
+    <td><span class="cls ${p.cls}">${p.cls}</span>${p.hut?'<span class="hut">HUT</span>':''}</td>
+    <td><div class="cname">${p.name}</div><div class="cdesc">${p.desc}</div></td>
+    <td class="cmoney col-desc">${p.fine}</td>
+    <td class="cmoney col-desc">${p.time}</td>
+  </tr>`).join('');
+  return `<section class="topic"><div class="topic-head"><span class="swatch" style="--c:${COL.penal}"></span><h2>Penal Code</h2><span class="count">${PENAL.length} CHARGES</span></div><div class="topic-body">
+    <div class="penal-tools">
+      <input class="search" id="penalSearch" placeholder="Search charge, code, or text…" value="${f.q.replace(/"/g,'&quot;')}">
+      ${pill('ALL','All')}${pill('INF','Infraction')}${pill('MIS','Misdemeanor')}${pill('FEL','Felony')}${pill('HUT','Hold-Until-Trial')}
+      <button class="pill ${f.expanded?'on':''}" data-k="EXP" style="${f.expanded?'background:var(--blue);border-color:var(--blue);color:#fff':''}">Descriptions</button>
+      <span class="resultcount">${rows.length} shown</span>
+    </div>
+    <table class="ptable ${f.expanded?'expanded':''}"><thead><tr><th>Code</th><th>Class</th><th>Charge</th><th class="col-desc">Fine</th><th class="col-desc">Time</th></tr></thead><tbody>${body}</tbody></table>
+  </div></section>`;
+}
+function wirePenal(){
+  const s=document.getElementById('penalSearch');
+  if(s)s.oninput=()=>{penalFilter.q=s.value;const pos=s.selectionStart;renderManual();const ns=document.getElementById('penalSearch');if(ns){ns.focus();ns.setSelectionRange(pos,pos)}};
+  view.querySelectorAll('.pill').forEach(b=>b.onclick=()=>{const k=b.dataset.k;if(k==='EXP')penalFilter.expanded=!penalFilter.expanded;else penalFilter.cls=k;renderManual()});
+}
+
+/* ===================== DRILL ===================== */
+let deck=[],deckIdx=0,flipped=false,drillType='all',drillScope='all';
+function drillTypeOptions(){
+  if(activeCat==='penal')return[['all','All'],['INF','Infractions'],['MIS','Misdemeanors'],['FEL','Felonies'],['HUT','Hold-Until-Trial']];
+  if(activeCat==='constitution')return[['all','All'],['core','Rights & Structure'],['amend','Amendments']];
+  if(activeCat==='radio')return[['all','All'],['R','10-Codes'],['P','Response Codes']];
+  return[];
+}
+function buildDeck(){
+  let raw=[];const ids=activeIds();
+  ids.forEach(id=>{
+    if(id==='radio'){raw=raw.concat(radioCards());return}
+    if(id==='penal'){raw=raw.concat(penalCards());return}
+    if(id==='constitution'){const c=DATA.find(x=>x.id===id);c.cards.forEach((x,i)=>raw.push({...x,key:id+'-'+i,cat:c.label,color:c.color,t:'core'}));raw=raw.concat(amendCards().map(x=>({...x,t:'amend'})));return}
+    const c=DATA.find(x=>x.id===id);if(c)c.cards.forEach((x,i)=>raw.push({...x,key:id+'-'+i,cat:c.label,color:c.color,t:'core'}));
+  });
+  if(drillType!=='all'){raw=drillType==='HUT'?raw.filter(c=>c.hut):raw.filter(c=>c.t===drillType)}
+  if(drillScope==='unknown')raw=raw.filter(c=>!known[c.key]);
+  deck=raw;deckIdx=0;flipped=false;
+}
+function deckControlsHTML(){
+  const types=drillTypeOptions();
+  const total=deck.length;
+  const typeRow=types.length?`<div class="dc-row"><span class="dc-label">Type</span>${types.map(t=>`<button class="pill ${drillType===t[0]?'on':''}" data-dt="${t[0]}">${t[1]}</button>`).join('')}</div>`:'';
+  return `<div class="deck-controls">
+    <div class="dc-row"><span class="dc-label">Study</span>
+      <button class="pill ${drillScope==='all'?'on':''}" data-ds="all">All cards</button>
+      <button class="pill ${drillScope==='unknown'?'on':''}" data-ds="unknown">Not yet known</button>
+      <span class="dc-count">${total} card${total===1?'':'s'} in deck</span>
+    </div>${typeRow}
+  </div>`;
+}
+function wireDeckControls(){
+  view.querySelectorAll('[data-ds]').forEach(b=>b.onclick=()=>{drillScope=b.dataset.ds;buildDeck();renderDrill()});
+  view.querySelectorAll('[data-dt]').forEach(b=>b.onclick=()=>{drillType=b.dataset.dt;buildDeck();renderDrill()});
+}
+function shuffleDeck(){for(let i=deck.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[deck[i],deck[j]]=[deck[j],deck[i]]}deckIdx=0;flipped=false;renderDrill()}
+function renderDrill(){
+  if(!deck.length){
+    view.innerHTML=`<div class="drill-wrap">${deckControlsHTML()}<div class="empty">No cards match this filter.${drillScope==='unknown'?' You\u2019ve marked them all known \u2014 switch to \u201cAll cards\u201d to review.':' Try \u201cAll\u201d.'}</div></div>`;
+    wireDeckControls();return;
+  }
+  const card=deck[deckIdx],isKnown=known[card.key];
+  view.innerHTML=`<div class="drill-wrap">${deckControlsHTML()}
+    <div class="drill-meta"><span>CARD <b>${deckIdx+1}</b> / ${deck.length}</span><span>${card.cat.toUpperCase()}</span><span>KNOWN <b>${knownCount()}</b>/${totalCards()}</span></div>
+    <div class="card ${flipped?'flipped':''}" id="card" tabindex="0" role="button" aria-label="Flashcard, Enter or Space to flip">
+      <div class="card-inner">
+        <div class="face front"><svg class="seal-wm"><use href="#seal"/></svg><span class="corner">Study Card</span><span class="corner corner-r" style="--c:${card.color}">${card.cat.toUpperCase()}</span><div class="prompt">${card.front}</div><div class="hint">tap to reveal</div></div>
+        <div class="face back"><svg class="seal-wm"><use href="#seal"/></svg><span class="corner">Answer</span><span class="corner corner-r" style="--c:${card.color}">${card.cat.toUpperCase()}</span><div class="answer">${card.back}</div></div>
+      </div>
+    </div>
+    <div class="drill-controls">
+      <button class="btn ghost" id="prev">‹ Prev</button>
+      <button class="btn ${isKnown?'known':'ghost'}" id="mark">${isKnown?'✓ Known':'Mark known'}</button>
+      <button class="btn ghost" id="shuffle">⤬ Shuffle</button>
+      <button class="btn primary" id="next">Next ›</button>
+    </div></div>`;
+  wireDeckControls();
+  const cardEl=document.getElementById('card');
+  const flip=()=>{flipped=!flipped;cardEl.classList.toggle('flipped')};
+  cardEl.onclick=flip;cardEl.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();flip()}};
+  document.getElementById('next').onclick=()=>{deckIdx=(deckIdx+1)%deck.length;flipped=false;renderDrill()};
+  document.getElementById('prev').onclick=()=>{deckIdx=(deckIdx-1+deck.length)%deck.length;flipped=false;renderDrill()};
+  document.getElementById('shuffle').onclick=shuffleDeck;
+  document.getElementById('mark').onclick=()=>{known[card.key]=!known[card.key];store.set('fib_known',known);updateClearance();renderDrill()};
+}
+
+/* ===================== EXAM ===================== */
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a}
+let examLen=15,examPhase='setup';
+function firstBold(html){const m=html.match(/<b>([\s\S]*?)<\/b>/);if(!m)return null;return m[1].replace(/<[^>]+>/g,'').trim().replace(/[.,;]$/,'')}
+function penalClsQ(p){const opts=['Infraction','Misdemeanor','Felony'];return{q:`What classification is "${p.name}"?`,opts,answer:opts.indexOf(clsName(p.cls)),why:`<b>${p.name}</b> (${p.code}) is a <b>${clsName(p.cls)}</b>${p.hut?' — and a Hold-Until-Trial charge':''}.`,cat:'Penal Code',color:COL.penal}}
+function radioMeanQ(r){const wrong=shuffle(RADIO.filter(x=>x.code!==r.code)).slice(0,3).map(x=>x.mean);const opts=shuffle([r.mean,...wrong]);return{q:`What does "${r.code}" mean?`,opts,answer:opts.indexOf(r.mean),why:`<b>${r.code} = ${r.mean}.</b>`,cat:'Radio Codes',color:COL.radio}}
+function cardToMCQ(card,sibs){
+  const correct=firstBold(card.back);if(!correct)return null;
+  const pool=[...new Set(sibs.map(c=>firstBold(c.back)).filter(x=>x&&x!==correct))];
+  if(pool.length<2)return null;
+  const opts=shuffle([correct,...shuffle(pool).slice(0,3)]);
+  return{q:card.front,opts,answer:opts.indexOf(correct),why:card.back,cat:card.cat,color:card.color};
+}
+function sectionCards(id){
+  if(id==='radio')return radioCards();
+  if(id==='penal')return penalCards();
+  if(id==='constitution'){const c=DATA.find(x=>x.id===id);return c.cards.map((x,i)=>({...x,key:id+'-'+i,cat:c.label,color:c.color})).concat(amendCards())}
+  const c=DATA.find(x=>x.id===id);return c?c.cards.map((x,i)=>({...x,key:id+'-'+i,cat:c.label,color:c.color})):[];
+}
+function sectionPool(id){
+  if(id==='penal')return PENAL.map(penalClsQ);
+  if(id==='radio')return RADIO.map(radioMeanQ);
+  let qs=[];const c=DATA.find(x=>x.id===id);
+  if(c)c.quiz.forEach(q=>qs.push({...q,cat:c.label,color:c.color}));
+  const cards=sectionCards(id);
+  cards.forEach(card=>{const q=cardToMCQ(card,cards);if(q)qs.push(q)});
+  return qs;
+}
+function fullPool(){let p=[];activeIds().forEach(id=>p=p.concat(sectionPool(id)));const seen={};return p.filter(q=>{const k=q.q.toLowerCase();if(seen[k])return false;seen[k]=1;return true})}
+function buildExam(){
+  const pool=shuffle(fullPool());
+  const n=examLen==='all'?pool.length:Math.min(examLen,pool.length);
+  examState={pool:pool.slice(0,n),idx:0,picked:null,answers:[]};
+}
+function renderExamSetup(){
+  const total=fullPool().length;
+  const scope=activeCat==='all'?'All sections':catLabel(activeCat);
+  const eff=(examLen==='all'||examLen>=total)?'all':examLen;
+  const nums=[10,15,25,50].filter(n=>n<total);
+  const lenBtns=nums.map(n=>`<button class="pill ${eff===n?'on':''}" data-len="${n}">${n}</button>`).join('')+`<button class="pill ${eff==='all'?'on':''}" data-len="all">All ${total}</button>`;
+  view.innerHTML=`<div class="exam-wrap"><div class="exam-setup">
+    <div class="es-kicker">Examination</div>
+    <h3 class="es-title">${scope}</h3>
+    <p class="es-sub">${total} question${total===1?'':'s'} available. Questions are drawn at random and cover every entry in ${activeCat==='all'?'every section':'this section'} — charges, codes, cases, statutes and definitions.</p>
+    <div class="es-row"><span class="dc-label">Length</span>${lenBtns}</div>
+    <button class="btn primary es-start" id="startExam">Start examination</button>
+    <div class="es-note">Pass mark 80%${activeCat==='all'?' · spanning every section':''}</div>
+  </div></div>`;
+  view.querySelectorAll('[data-len]').forEach(b=>b.onclick=()=>{examLen=b.dataset.len==='all'?'all':+b.dataset.len;renderExamSetup()});
+  document.getElementById('startExam').onclick=()=>{examPhase='running';buildExam();renderExam()};
+}
+function renderExam(){
+  if(examPhase!=='running'||!examState)return renderExamSetup();
+  const s=examState;
+  if(!s.pool.length){view.innerHTML='<div class="empty">No questions here.</div>';return}
+  if(s.idx>=s.pool.length)return renderResults();
+  const q=s.pool[s.idx],pct=Math.round(s.idx/s.pool.length*100);
+  view.innerHTML=`<div class="exam-wrap">
+    <div class="progress-line"><span>QUESTION ${s.idx+1} / ${s.pool.length}</span><span>SCORE ${s.answers.filter(a=>a.correct).length}</span></div>
+    <div class="progress-track"><span style="width:${pct}%"></span></div>
+    <div class="q-card"><div class="q-cat" style="--c:${q.color}">${q.cat}</div><div class="q-text">${q.q}</div>
+    <div class="opts">${q.opts.map((o,i)=>`<button class="opt" data-i="${i}"><span class="key">${'ABCD'[i]}</span><span>${o}</span></button>`).join('')}</div>
+    <div id="explainSlot"></div></div>
+    <div class="exam-nav"><button class="btn primary" id="nextQ" style="display:none">${s.idx+1===s.pool.length?'See Results':'Next ›'}</button></div></div>`;
+  const opts=[...view.querySelectorAll('.opt')];
+  opts.forEach(btn=>btn.onclick=()=>{
+    if(s.picked!=null)return;
+    const i=+btn.dataset.i,correct=i===q.answer;s.picked=i;s.answers.push({cat:q.cat,correct});
+    opts.forEach(b=>{b.disabled=true;const bi=+b.dataset.i;if(bi===q.answer)b.classList.add('correct');else if(bi===i)b.classList.add('wrong')});
+    document.getElementById('explainSlot').innerHTML=`<div class="explain"><b>${correct?'✓ Correct.':'✗ Not quite.'}</b> ${q.why}</div>`;
+    document.getElementById('nextQ').style.display='inline-block';
+  });
+  document.getElementById('nextQ').onclick=()=>{s.idx++;s.picked=null;renderExam()};
+}
+function renderResults(){
+  const s=examState,total=s.answers.length,correct=s.answers.filter(a=>a.correct).length,pct=Math.round(correct/total*100),pass=pct>=80;
+  const byCat={};s.answers.forEach(a=>{(byCat[a.cat]=byCat[a.cat]||{c:0,t:0});byCat[a.cat].t++;if(a.correct)byCat[a.cat].c++});
+  const best=store.get('fib_best',0);if(pct>best)store.set('fib_best',pct);
+  view.innerHTML=`<div class="exam-wrap"><div class="results">
+    <div class="cert-band ${pass?'':'fail'}"></div>
+    <div class="results-body">
+      ${pass?'<svg class="cert-seal"><use href="#seal"/></svg>':''}
+      <div class="cert-kicker">${pass?'Standards Met':'Standards Not Met'}</div>
+      <div class="verdict ${pass?'pass':'fail'}">${pass?'Certified':'Not Yet Certified'}</div>
+      <div class="score">Score <b>${pct}%</b></div>
+      <div class="stmt">${pass
+        ? `You answered ${correct} of ${total} correctly and met the 80% standard for this assessment. Review any weak sections below before the live exam.`
+        : `You answered ${correct} of ${total} correctly. The certification standard is 80% — review the sections below and retake the examination.`}</div>
+      <div class="breakdown">${Object.entries(byCat).map(([k,v])=>`<div class="bd-row"><span class="lbl">${k}</span><span class="bar"><span style="width:${Math.round(v.c/v.t*100)}%"></span></span><span class="val">${v.c}/${v.t}</span></div>`).join('')}</div>
+      <button class="btn primary" id="retry">Retake examination</button>
+      <button class="btn ghost" id="changeLen" style="margin-left:8px">Change length</button>
+      <div style="font-family:var(--mono);font-size:11px;color:var(--muted-2);margin-top:14px">Best result to date · ${Math.max(pct,best)}%</div>
+    </div></div></div>`;
+  document.getElementById('retry').onclick=()=>{examPhase='running';buildExam();renderExam()};
+  document.getElementById('changeLen').onclick=()=>{examPhase='setup';renderExam()};
+}
+
+/* ===================== ROUTER ===================== */
+function render(){if(mode==='manual')renderManual();else if(mode==='drill'){buildDeck();renderDrill()}else renderExam();updateClearance()}
+document.querySelectorAll('.mode-btn').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;examState=null;examPhase='setup';document.querySelectorAll('.mode-btn').forEach(x=>x.classList.toggle('active',x===b));render()});
+document.addEventListener('keydown',e=>{if(mode!=='drill')return;if(e.key==='ArrowRight')document.getElementById('next')?.click();if(e.key==='ArrowLeft')document.getElementById('prev')?.click()});
+/* ===================== GLOBAL SEARCH ===================== */
+let SEARCH_INDEX=null;
+function buildSearchIndex(){
+  const idx=[];
+  DATA.forEach(c=>{(c.entries||[]).forEach(e=>{
+    if(!e.h)return;
+    if(e.amend){ // index each amendment individually, jump to its cell
+      amendments.forEach(a=>idx.push({kind:'amend',sec:'constitution',secLabel:'Constitution',color:COL.constitution,title:a[0]+' Amendment',meta:a[1],text:(a[0]+' amendment '+a[1]).toLowerCase(),anchor:'a-constitution-amd-'+slug(a[0])}));
+      return;
+    }
+    const text=[e.h,e.def,e.p,e.req,e.eg,(e.items||[]).map(x=>x.join(' ')).join(' '),(e.list||[]).join(' '),(e.steps||[]).join(' ')].filter(Boolean).join(' ').toLowerCase();
+    idx.push({kind:'entry',sec:c.id,secLabel:c.label,color:c.color,title:e.h,meta:e.def||e.p||c.label,text,anchor:'a-'+c.id+'-'+slug(e.h)});
+  })});
+  RADIO.forEach(r=>idx.push({kind:'radio',sec:'radio',secLabel:'Radio Codes',color:COL.radio,title:r.code,meta:r.mean,text:(r.code+' '+r.mean).toLowerCase(),anchor:'a-radio-'+slug(r.code)}));
+  PENAL.forEach(p=>idx.push({kind:'penal',sec:'penal',secLabel:'Penal Code',color:COL.penal,title:p.name,meta:p.code+' · '+clsName(p.cls)+(p.hut?' · HUT':''),text:(p.code+' '+p.name+' '+p.desc).toLowerCase(),code:p.code}));
+  return idx;
+}
+function getIndex(){if(!SEARCH_INDEX)SEARCH_INDEX=buildSearchIndex();return SEARCH_INDEX}
+let searchResults=[],searchSel=0;
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function hl(title,q){let t=esc(title);(q.trim().split(/\s+/).filter(Boolean)).forEach(w=>{try{t=t.replace(new RegExp('('+w.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','ig'),'<mark>$1</mark>')}catch(e){}});return t}
+function runSearch(q){
+  const s=q.trim().toLowerCase();
+  if(!s){searchResults=[];renderSearchPanel();return}
+  const terms=s.split(/\s+/);
+  const scored=[];
+  getIndex().forEach(r=>{
+    if(terms.every(w=>r.text.includes(w))){
+      const t=r.title.toLowerCase();
+      let sc=0; if(t===s)sc=100; else if(t.startsWith(s))sc=60; else if(t.includes(s))sc=40;
+      scored.push({r,sc});
+    }
+  });
+  scored.sort((a,b)=>b.sc-a.sc);
+  searchResults=scored.slice(0,40).map(x=>x.r);
+  searchSel=0;renderSearchPanel();
+}
+function renderSearchPanel(){
+  const panel=document.getElementById('gsearchPanel'),input=document.getElementById('gsearch');
+  if(!panel)return;
+  const q=input?input.value:'';
+  if(!q.trim()){panel.hidden=true;panel.innerHTML='';return}
+  if(!searchResults.length){panel.hidden=false;panel.innerHTML='<div class="ls-empty">No matching records.</div>';return}
+  panel.hidden=false;
+  panel.innerHTML=searchResults.map((r,i)=>`<button class="ls-row ${i===searchSel?'sel':''}" data-i="${i}">
+    <span class="ls-tag" style="background:${r.color}"></span>
+    <span class="ls-main"><span class="ls-title">${hl(r.title,q)}</span><span class="ls-meta">${esc(r.meta||'')}</span></span>
+    <span class="ls-sec">${r.secLabel}</span></button>`).join('')
+    +`<div class="ls-foot">${searchResults.length} result${searchResults.length===1?'':'s'} · ↑↓ to move · Enter to open</div>`;
+  panel.querySelectorAll('.ls-row').forEach(b=>b.addEventListener('mousedown',ev=>{ev.preventDefault();gotoResult(searchResults[+b.dataset.i])}));
+  const sel=panel.querySelector('.ls-row.sel');if(sel)sel.scrollIntoView({block:'nearest'});
+}
+function gotoResult(r){
+  if(!r)return;
+  const input=document.getElementById('gsearch');if(input){input.value='';input.blur()}
+  searchResults=[];renderSearchPanel();
+  mode='manual';examPhase='setup';drillType='all';
+  document.querySelectorAll('.mode-btn').forEach(x=>x.classList.toggle('active',x.dataset.mode==='manual'));
+  activeCat=r.sec;
+  if(!openTabs.includes(r.sec))openTabs.push(r.sec);
+  store.set('fib_tabs',openTabs);
+  if(r.kind==='penal'){penalFilter.q=r.code;penalFilter.cls='ALL'}
+  renderTabs();renderChips();updateReadout();render();
+  requestAnimationFrame(()=>{
+    let el=null;
+    if(r.kind==='penal')el=document.querySelector('.ptable tbody tr');
+    else if(r.anchor)el=document.getElementById(r.anchor);
+    if(el){el.scrollIntoView({block:'center',behavior:'smooth'});el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),1700)}
+  });
+}
+function wireSearch(){
+  const input=document.getElementById('gsearch');if(!input)return;
+  input.addEventListener('input',()=>runSearch(input.value));
+  input.addEventListener('focus',()=>{if(input.value.trim())renderSearchPanel()});
+  input.addEventListener('blur',()=>setTimeout(()=>{const p=document.getElementById('gsearchPanel');if(p)p.hidden=true},150));
+  input.addEventListener('keydown',e=>{
+    if(e.key==='ArrowDown'){e.preventDefault();searchSel=Math.min(searchSel+1,searchResults.length-1);renderSearchPanel()}
+    else if(e.key==='ArrowUp'){e.preventDefault();searchSel=Math.max(searchSel-1,0);renderSearchPanel()}
+    else if(e.key==='Enter'){e.preventDefault();if(searchResults[searchSel])gotoResult(searchResults[searchSel])}
+    else if(e.key==='Escape'){input.value='';searchResults=[];renderSearchPanel();input.blur()}
+  });
+  document.addEventListener('keydown',e=>{if((e.key==='/'||((e.ctrlKey||e.metaKey)&&e.key==='k'))&&document.activeElement!==input){e.preventDefault();input.focus()}});
+}
+openTabs=openTabs.filter(id=>id==='all'||CATS.some(c=>c.id===id));if(!openTabs.length)openTabs=['all'];
+if(!openTabs.includes(activeCat))activeCat=openTabs[openTabs.length-1];
+(function(){const s=document.getElementById('sidebar');if(s)s.classList.toggle('collapsed',collapsed);const t=document.getElementById('railToggle');if(t){t.innerHTML=collapsed?'\u00BB':'\u00AB';t.title=collapsed?'Expand sidebar':'Collapse sidebar';t.onclick=()=>setCollapsed(!collapsed);}})();
+renderChips();renderTabs();updateReadout();render();wireSearch();
+function tickClock(){var el=document.getElementById('clock');if(!el)return;var d=new Date();el.textContent=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
+tickClock();setInterval(tickClock,1000);
+</script>
+</body>
+</html>
