@@ -64,34 +64,37 @@ tailwind.config={theme:{extend:{
 
   /* shell + command rail */
   .shell{@apply flex items-start max-w-[1320px] mx-auto max-lg:flex-col max-lg:min-h-0;min-height:calc(100vh - 27px)}
-  .sidebar{@apply text-white flex flex-col gap-4 p-4 overflow-y-auto [scrollbar-width:none] lg:sticky lg:top-0 lg:self-start lg:w-[250px] lg:shrink-0 lg:h-screen lg:transition-[width] lg:duration-200 max-lg:static max-lg:w-full max-lg:h-auto max-lg:gap-[13px] max-lg:py-[14px] max-lg:px-4;background-image:linear-gradient(180deg,#13294c,#0E2244)}
-  .brandrail{@apply flex items-center gap-[11px] pt-0.5 px-0.5 pb-[14px] border-b max-lg:pb-0 max-lg:border-b-0;border-color:rgba(255,255,255,.10)}
+  .sidebar{@apply text-white flex flex-col gap-4 p-4 overflow-y-auto [scrollbar-width:none] lg:sticky lg:top-0 lg:self-start lg:w-[250px] lg:shrink-0 lg:h-screen lg:transition-[width] lg:duration-200 max-lg:fixed max-lg:inset-y-0 max-lg:left-0 max-lg:z-[80] max-lg:w-[290px] max-lg:max-w-[85vw] max-lg:h-full max-lg:-translate-x-full max-lg:transition-transform max-lg:duration-200;background-image:linear-gradient(180deg,#13294c,#0E2244)}
+  .sidebar.open{@apply max-lg:translate-x-0 max-lg:shadow-2xl}
+  .scrim{@apply fixed inset-0 z-[75] bg-black/40 opacity-0 pointer-events-none transition-opacity duration-200 lg:hidden}
+  .scrim.show{@apply opacity-100 pointer-events-auto}
+  .hamburger{@apply flex lg:hidden items-center justify-center w-[30px] h-[30px] rounded-[6px] border border-line bg-surface text-navy cursor-pointer shrink-0 mr-1 text-[15px] leading-none}
+  .hamburger:active{@apply bg-surface-2}
+  .brandrail{@apply flex items-center gap-[11px] pt-0.5 px-0.5 pb-[14px] border-b;border-color:rgba(255,255,255,.10)}
   .brandrail .seal{@apply w-[42px] h-[42px] shrink-0}
   .brand-name{@apply font-extrabold text-[17px] text-white tracking-[-.01em] leading-[1.05]}
   .brand-sub{@apply block text-[10px] uppercase tracking-[.09em] font-semibold mt-0.5;color:#9fb0c9}
   .rail-toggle{@apply ml-auto border rounded-[6px] w-[26px] h-[26px] cursor-pointer text-[14px] leading-none shrink-0 flex items-center justify-center max-lg:hidden;background:rgba(255,255,255,.06);border-color:rgba(255,255,255,.14);color:#aeb9cc}
   .rail-toggle:hover{@apply text-white;background:rgba(255,255,255,.13)}
   .rail-toggle:focus-visible{@apply outline-none;outline:2px solid var(--brass);outline-offset:2px}
-  .side-group{@apply max-lg:order-3}
   .side-label{@apply font-mono text-[9.5px] tracking-[.16em] uppercase mb-[7px] ml-[5px];color:#6f7d94}
-  .side-nav{@apply flex flex-col gap-px max-lg:flex-row max-lg:flex-nowrap max-lg:overflow-x-auto max-lg:gap-[7px] max-lg:pb-[3px] max-lg:[scrollbar-width:none]}
-  .side-nav .chip{@apply flex items-center gap-[7px] cursor-pointer appearance-none w-full justify-start bg-transparent border border-transparent rounded-[7px] py-[9px] px-[11px] text-[13px] font-medium relative max-lg:w-auto max-lg:shrink-0;color:#b3bfd2}
+  .side-nav{@apply flex flex-col gap-px}
+  .side-nav .chip{@apply flex items-center gap-[7px] cursor-pointer appearance-none w-full justify-start bg-transparent border border-transparent rounded-[7px] py-[9px] px-[11px] text-[13px] font-medium relative;color:#b3bfd2}
   .side-nav .chip:hover{@apply text-white;background:rgba(255,255,255,.06)}
   .side-nav .chip.active{@apply text-white;background:rgba(255,255,255,.10)}
-  .side-nav .chip.active::before{@apply content-[''] absolute left-[-7px] top-2 bottom-2 w-[3px] rounded-r-[3px] max-lg:hidden;background:var(--brass)}
+  .side-nav .chip.active::before{@apply content-[''] absolute left-[-7px] top-2 bottom-2 w-[3px] rounded-r-[3px];background:var(--brass)}
   .side-nav .chip .tag{@apply w-2 h-2 rounded-[2px];background:var(--c,var(--muted))}
   .side-nav .chip.active .tag{box-shadow:0 0 0 1.5px rgba(255,255,255,.35)}
   .side-nav .chip:focus-visible{@apply outline-none;outline:2px solid var(--brass);outline-offset:-2px}
   .chip-abbr{@apply hidden}
-  @media (max-width:899.9px){.side-nav .chip{background:rgba(255,255,255,.07)}.side-nav .chip.active{background:var(--brass);color:var(--navy);font-weight:600}}
 
-  .cert-widget{@apply mt-auto rounded-[9px] p-[12px] border max-lg:mt-0 max-lg:order-2;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.10)}
+  .cert-widget{@apply mt-auto rounded-[9px] p-[12px] border;background:rgba(255,255,255,.05);border-color:rgba(255,255,255,.10)}
   .cw-top{@apply flex justify-between items-center font-mono text-[9.5px] tracking-[.12em] uppercase;color:#9fb0c9}
   .cw-top b{@apply font-ui text-[18px] font-extrabold;color:var(--brass-soft)}
   .cert-track{@apply h-2 rounded-[4px] my-[9px] overflow-hidden;background:rgba(255,255,255,.13)}
   .cert-track span{@apply block h-full w-0 rounded-[4px];background:linear-gradient(90deg,var(--brass),#E0B768);transition:width .6s ease}
   .cw-sub{@apply text-[11px];color:#7d8ca6}
-  .side-foot{@apply font-mono text-[9.5px] leading-[1.6] pt-3 border-t max-lg:hidden;color:#5d6b82;border-color:rgba(255,255,255,.08)}
+  .side-foot{@apply font-mono text-[9.5px] leading-[1.6] pt-3 border-t;color:#5d6b82;border-color:rgba(255,255,255,.08)}
 
   /* collapsed rail (desktop only) */
   .sidebar.collapsed{@apply lg:w-[68px] lg:px-2}
@@ -112,14 +115,14 @@ tailwind.config={theme:{extend:{
   .sidebar.collapsed .side-foot{@apply lg:hidden}
 
   /* workspace + duty bar */
-  .workspace{@apply flex-1 min-w-0 flex flex-col}
+  .workspace{@apply flex-1 min-w-0 max-w-full flex flex-col}
   .duty-bar{@apply sticky top-0 z-30 bg-surface border-b border-line shadow-op}
   .duty-id{@apply flex items-center gap-[13px] py-[9px] px-[22px] border-b border-line-2 font-mono text-[11px] text-muted tracking-[.02em] flex-wrap}
   .duty-status{@apply flex items-center gap-[7px] font-semibold uppercase tracking-[.07em] text-green}
   .duty-status .dot{@apply w-2 h-2 rounded-full bg-green animate-dutypulse}
   .duty-sep{@apply w-px h-[13px] bg-line}
   .duty-meta b{@apply text-ink font-semibold}
-  .duty-clock{@apply ml-auto text-navy font-bold text-[12px] max-lg:ml-0}
+  .duty-clock{@apply ml-auto text-navy font-bold text-[12px]}
 
   /* mode tabs */
   .tabs{@apply flex gap-0.5 overflow-x-auto [scrollbar-width:none] max-w-none m-0 px-[14px]}
@@ -160,7 +163,7 @@ tailwind.config={theme:{extend:{
   .stab .x{@apply bg-transparent border-none cursor-pointer text-[16px] leading-none w-[18px] h-[18px] rounded-[4px] flex items-center justify-center ml-px p-0;color:var(--muted-2)}
   .stab .x:hover{@apply text-ink bg-line}
 
-  main{@apply max-w-[1160px] w-full mx-auto pt-[30px] px-6 pb-[90px] max-sm:pt-6 max-sm:px-[18px] max-sm:pb-20}
+  main{@apply max-w-[1160px] w-full min-w-0 mx-auto pt-[30px] px-6 pb-[90px] max-sm:pt-6 max-sm:px-[18px] max-sm:pb-20}
 
   /* topic / manual */
   .topic{@apply mb-[26px] border border-line rounded-[10px] overflow-hidden bg-surface shadow-op}
@@ -325,6 +328,24 @@ tailwind.config={theme:{extend:{
 }
 /* pseudo-scrollbars + reduced motion */
 .tabs::-webkit-scrollbar,.sectiontabs::-webkit-scrollbar,.side-nav::-webkit-scrollbar,.lookup-panel::-webkit-scrollbar{display:none}
+body.drawer-open{overflow:hidden}
+/* penal records reflow to cards on phones */
+@media (max-width:619.9px){
+  .ptable,.ptable tbody,.ptable tr,.ptable td{display:block}
+  .ptable thead{display:none}
+  .ptable th{position:static}
+  .ptable tr{border:1px solid var(--line);border-radius:9px;padding:10px 12px;margin:0 0 9px}
+  .ptable tbody tr:nth-child(even),.ptable tbody tr:hover{background:var(--surface)}
+  .ptable td{border:none;padding:0}
+  .ptable .ccode{display:inline-block;margin-right:8px;font-size:12.5px}
+  .ptable .ptd-cls{display:inline-block;vertical-align:middle}
+  .ptable .ptd-name{margin-top:7px}
+  .ptable .cdesc{margin-top:4px}
+  .ptable .cmoney{display:inline-block;margin-top:9px;margin-right:20px;color:var(--muted)}
+  .ptable .cmoney::before{content:attr(data-l);font-family:'Public Sans',system-ui,sans-serif;font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;color:var(--muted-2);margin-right:5px}
+  .grid-list{grid-template-columns:1fr}
+  .penal-tools .search{min-width:0;flex:1 1 100%}
+}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.card-inner{transition:none}}
 </style>
 </head>
@@ -370,10 +391,12 @@ tailwind.config={theme:{extend:{
     </div>
     <div class="side-foot">Records synced 18 Jun 2026<br>Training terminal &middot; CDT-4471</div>
   </aside>
+  <div class="scrim" id="scrim"></div>
 
   <div class="workspace">
     <div class="duty-bar">
       <div class="duty-id">
+        <button class="hamburger" id="hamburger" aria-label="Open menu">&#9776;</button>
         <span class="duty-status"><span class="dot"></span>10-8 &middot; In Service</span>
         <span class="duty-sep"></span>
         <span class="duty-meta">Badge <b>CDT-4471</b></span>
@@ -1811,11 +1834,14 @@ function renderChips(){
   chipsEl.innerHTML=html;
   chipsEl.querySelectorAll('.chip').forEach(b=>b.onclick=()=>openTab(b.dataset.cat));
 }
+function isMobileNav(){return window.matchMedia('(max-width:899px)').matches}
+function setDrawer(v){const s=document.getElementById('sidebar');if(s)s.classList.toggle('open',v);const sc=document.getElementById('scrim');if(sc)sc.classList.toggle('show',v);document.body.classList.toggle('drawer-open',v)}
 function focusTab(id){activeCat=id;examState=null;examPhase='setup';drillType='all';renderTabs();renderChips();updateReadout();render()}
 function openTab(id){
   if(!openTabs.includes(id))openTabs.push(id);
   store.set('fib_tabs',openTabs);
   focusTab(id);
+  if(isMobileNav())setDrawer(false);
 }
 function closeTab(id){
   const i=openTabs.indexOf(id);if(i<0)return;
@@ -1889,10 +1915,10 @@ function penalManual(){
   const pill=(k,lbl)=>`<button class="pill ${f.cls===k?'on':''}" data-k="${k}">${lbl}</button>`;
   const body=rows.map(p=>`<tr>
     <td class="ccode">${p.code}</td>
-    <td><span class="cls ${p.cls}">${p.cls}</span>${p.hut?'<span class="hut">HUT</span>':''}</td>
-    <td><div class="cname">${p.name}</div><div class="cdesc">${p.desc}</div></td>
-    <td class="cmoney col-desc">${p.fine}</td>
-    <td class="cmoney col-desc">${p.time}</td>
+    <td class="ptd-cls"><span class="cls ${p.cls}">${p.cls}</span>${p.hut?'<span class="hut">HUT</span>':''}</td>
+    <td class="ptd-name"><div class="cname">${p.name}</div><div class="cdesc">${p.desc}</div></td>
+    <td class="cmoney ptd-fine" data-l="Fine">${p.fine}</td>
+    <td class="cmoney ptd-time" data-l="Time">${p.time}</td>
   </tr>`).join('');
   return `<section class="topic"><div class="topic-head"><span class="swatch" style="--c:${COL.penal}"></span><h2>Penal Code</h2><span class="count">${PENAL.length} CHARGES</span></div><div class="topic-body">
     <div class="penal-tools">
@@ -2163,7 +2189,7 @@ function wireSearch(){
 }
 openTabs=openTabs.filter(id=>id==='all'||CATS.some(c=>c.id===id));if(!openTabs.length)openTabs=['all'];
 if(!openTabs.includes(activeCat))activeCat=openTabs[openTabs.length-1];
-(function(){const s=document.getElementById('sidebar');if(s)s.classList.toggle('collapsed',collapsed);const t=document.getElementById('railToggle');if(t){t.innerHTML=collapsed?'\u00BB':'\u00AB';t.title=collapsed?'Expand sidebar':'Collapse sidebar';t.onclick=()=>setCollapsed(!collapsed);}})();
+(function(){const s=document.getElementById('sidebar');if(s)s.classList.toggle('collapsed',collapsed);const t=document.getElementById('railToggle');if(t){t.innerHTML=collapsed?'\u00BB':'\u00AB';t.title=collapsed?'Expand sidebar':'Collapse sidebar';t.onclick=()=>setCollapsed(!collapsed);}const h=document.getElementById('hamburger');if(h)h.onclick=()=>setDrawer(!document.getElementById('sidebar').classList.contains('open'));const sc=document.getElementById('scrim');if(sc)sc.onclick=()=>setDrawer(false);window.addEventListener('keydown',e=>{if(e.key==='Escape')setDrawer(false)});})();
 renderChips();renderTabs();updateReadout();render();wireSearch();
 function tickClock(){var el=document.getElementById('clock');if(!el)return;var d=new Date();el.textContent=d.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});}
 tickClock();setInterval(tickClock,1000);
